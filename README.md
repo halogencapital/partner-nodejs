@@ -4,10 +4,10 @@ Package partner-nodejs is a nodejs client for calling the Halogen Partner HTTP A
 
 ### Installation
 
-You may install the package using `yarn`.
+You may install the package using `npm`.
 
 ```bash
-$ yarn add github:halogencapital/partner-nodejs
+$ npm add github:halogencapital/partner-nodejs
 ```
 
 ### Documentation:
