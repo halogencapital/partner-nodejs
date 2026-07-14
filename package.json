@@ -1,0 +1,30 @@
+{
+  "name": "@halogencapital/partner-nodejs",
+  "version": "0.0.2",
+  "main": "dist/index.js",
+  "license": "MIT",
+  "type": "module",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.43",
+    "tsx": "^4.7.0",
+    "typescript": "^5.4.0"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "yarn tsc",
+    "prepare": "yarn build",
+    "prepublishOnly": "yarn build"
+  }
+}
