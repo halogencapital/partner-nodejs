@@ -1,0 +1,6 @@
+.DS_Store
+.key
+.env
+dist/
+node_modules/
+examples/internal.ts
