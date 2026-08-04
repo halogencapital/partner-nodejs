@@ -1043,6 +1043,102 @@ export namespace Partner {
 		externalURl: string
 	}
 
+	export interface SimulateCreateIndividualClientFromApplicantInput {
+		/** ApplicantID is the ID of the applicant to create the client from.
+		 *
+		 * Required.
+		 */
+		applicantId: string
+	}
+
+	export interface SimulateCreateIndividualClientFromApplicantOutput {
+		/** ClientID is the ID of the created client. */
+		clientId: string
+	}
+
+	export interface SimulatePortfolioRebalanceInput {
+	}
+
+	export interface SimulatePortfolioRebalanceOutput {
+	}
+
+	export interface SimulateUpdateClientBankAccountStatusVerificationFailedInput {
+		/** ClientID is the ID of the client who owns the bank account.
+		 *
+		 * Required.
+		 */
+		clientId: string
+		/** AccountID is the ID of the client's account.
+		 *
+		 * Required.
+		 */
+		accountId: string
+		/** BankAccountNumber is the bank account number whose verification failed.
+		 *
+		 * Required.
+		 */
+		bankAccountNumber: string
+	}
+
+	export interface SimulateUpdateClientBankAccountStatusVerificationFailedOutput {
+	}
+
+	export interface SimulateUpdateClientBankAccountStatusVerifiedInput {
+		/** ClientID is the ID of the client who owns the bank account.
+		 *
+		 * Required.
+		 */
+		clientId: string
+		/** AccountID is the ID of the client's account.
+		 *
+		 * Required.
+		 */
+		accountId: string
+		/** BankAccountNumber is the bank account number to verify.
+		 *
+		 * Required.
+		 */
+		bankAccountNumber: string
+	}
+
+	export interface SimulateUpdateClientBankAccountStatusVerifiedOutput {
+	}
+
+	export interface SimulateUpdateClientRequestStatusApprovedInput {
+		/** RequestID is the ID of the deposit or withdrawal request to approve.
+		 * Only one request can be processed per call.
+		 *
+		 * Required.
+		 */
+		requestId: string
+	}
+
+	export interface SimulateUpdateClientRequestStatusApprovedOutput {
+	}
+
+	export interface SimulateUpdateClientRequestStatusSettledInput {
+		/** RequestID is the ID of the deposit or withdrawal request to settle.
+		 * Only one request can be processed per call.
+		 *
+		 * Required.
+		 */
+		requestId: string
+	}
+
+	export interface SimulateUpdateClientRequestStatusSettledOutput {
+	}
+
+	export interface SimulateUpdateClientStatusApprovedInput {
+		/** ClientID is the ID of the client whose status will be updated.
+		 *
+		 * Required.
+		 */
+		clientId: string
+	}
+
+	export interface SimulateUpdateClientStatusApprovedOutput {
+	}
+
 	export interface SuitabilityAssessment {
 		investmentExperience: string
 		investmentObjective: string
@@ -1582,6 +1678,175 @@ export namespace Partner {
 		 */
 		async listPortfolios(input: ListPortfoliosInput) : Promise<ListPortfoliosOutput> {
 			return this.query<ListPortfoliosInput, ListPortfoliosOutput>("list_portfolios", input)
+		}
+
+		/** Simulates creating an individual client after being onboarded using Halogen Wallet.
+		 *
+		 * This API is available only in the spot environment and is not available in production.
+		 *
+		 * Errors:
+		 *   - ErrExpiredApiKey
+		 *   - ErrExpiredAuthToken
+		 *   - ErrInternal
+		 *   - ErrInvalidAuthSignature
+		 *   - ErrInvalidAuthToken
+		 *   - ErrInvalidHeader
+		 *   - ErrInvalidPublicKey
+		 *   - ErrInvalidRoute
+		 *   - ErrMissingHeader
+		 *   - ErrMissingParameter
+		 *   - ErrRateLimitExceeded
+		 *   - ErrUnauthorizedIPAddress
+		 */
+		async simulateCreateIndividualClientFromApplicant(input: SimulateCreateIndividualClientFromApplicantInput) : Promise<SimulateCreateIndividualClientFromApplicantOutput> {
+			return this.command<SimulateCreateIndividualClientFromApplicantInput, SimulateCreateIndividualClientFromApplicantOutput>("simulate_create_individual_client_from_applicant", input)
+		}
+
+		/** SimulatePortfolioRebalance creates a portfolio rebalance plan, creates trades
+		 * from the generated plan instructions, books the trades, and marks the plan as
+		 * completed.
+		 *
+		 * This API is available only in the spot environment and is not available in
+		 * production.
+		 *
+		 * Errors:
+		 *   - ErrExpiredApiKey
+		 *   - ErrExpiredAuthToken
+		 *   - ErrInternal
+		 *   - ErrInvalidAuthSignature
+		 *   - ErrInvalidAuthToken
+		 *   - ErrInvalidHeader
+		 *   - ErrInvalidPublicKey
+		 *   - ErrInvalidRoute
+		 *   - ErrMissingHeader
+		 *   - ErrRateLimitExceeded
+		 *   - ErrUnauthorizedIPAddress
+		 */
+		async simulatePortfolioRebalance(input: SimulatePortfolioRebalanceInput) : Promise<SimulatePortfolioRebalanceOutput> {
+			return this.command<SimulatePortfolioRebalanceInput, SimulatePortfolioRebalanceOutput>("simulate_portfolio_rebalance", input)
+		}
+
+		/** SimulateUpdateClientBankAccountStatusVerificationFailed simulates marking a
+		 * client's bank account verification as failed.
+		 *
+		 * This API is available only in the spot environment and is not available in production.
+		 *
+		 * Errors:
+		 *   - ErrExpiredApiKey
+		 *   - ErrExpiredAuthToken
+		 *   - ErrInternal
+		 *   - ErrInvalidAuthSignature
+		 *   - ErrInvalidAuthToken
+		 *   - ErrInvalidHeader
+		 *   - ErrInvalidParameter
+		 *   - ErrInvalidPublicKey
+		 *   - ErrInvalidRoute
+		 *   - ErrMissingHeader
+		 *   - ErrMissingParameter
+		 *   - ErrRateLimitExceeded
+		 *   - ErrUnauthorizedIPAddress
+		 */
+		async simulateUpdateClientBankAccountStatusVerificationFailed(input: SimulateUpdateClientBankAccountStatusVerificationFailedInput) : Promise<SimulateUpdateClientBankAccountStatusVerificationFailedOutput> {
+			return this.command<SimulateUpdateClientBankAccountStatusVerificationFailedInput, SimulateUpdateClientBankAccountStatusVerificationFailedOutput>("simulate_update_client_bank_account_status_verification_failed", input)
+		}
+
+		/** SimulateUpdateClientBankAccountStatusVerified simulates updating a client
+		 * bank account status to verified.
+		 *
+		 * This API is available only in the spot environment and is not available in production.
+		 *
+		 * Errors:
+		 *   - ErrExpiredApiKey
+		 *   - ErrExpiredAuthToken
+		 *   - ErrInternal
+		 *   - ErrInvalidAuthSignature
+		 *   - ErrInvalidAuthToken
+		 *   - ErrInvalidHeader
+		 *   - ErrInvalidPublicKey
+		 *   - ErrInvalidRoute
+		 *   - ErrMissingHeader
+		 *   - ErrRateLimitExceeded
+		 *   - ErrUnauthorizedIPAddress
+		 */
+		async simulateUpdateClientBankAccountStatusVerified(input: SimulateUpdateClientBankAccountStatusVerifiedInput) : Promise<SimulateUpdateClientBankAccountStatusVerifiedOutput> {
+			return this.command<SimulateUpdateClientBankAccountStatusVerifiedInput, SimulateUpdateClientBankAccountStatusVerifiedOutput>("simulate_update_client_bank_account_status_verified", input)
+		}
+
+		/** SimulateUpdateClientRequestStatusApproved simulates approving a client deposit
+		 * or withdrawal request by booking its associated fund income or expense
+		 * transaction.
+		 *
+		 * Only deposit and withdrawal transactions are supported. One transaction can
+		 * be processed per request.
+		 *
+		 * This API is available only in the spot environment and is not available in
+		 * production.
+		 *
+		 * Errors:
+		 *   - ErrExpiredApiKey
+		 *   - ErrExpiredAuthToken
+		 *   - ErrInternal
+		 *   - ErrInvalidAuthSignature
+		 *   - ErrInvalidAuthToken
+		 *   - ErrInvalidHeader
+		 *   - ErrInvalidPublicKey
+		 *   - ErrInvalidRoute
+		 *   - ErrMissingHeader
+		 *   - ErrRateLimitExceeded
+		 *   - ErrUnauthorizedIPAddress
+		 */
+		async simulateUpdateClientRequestStatusApproved(input: SimulateUpdateClientRequestStatusApprovedInput) : Promise<SimulateUpdateClientRequestStatusApprovedOutput> {
+			return this.command<SimulateUpdateClientRequestStatusApprovedInput, SimulateUpdateClientRequestStatusApprovedOutput>("simulate_update_client_request_status_approved", input)
+		}
+
+		/** SimulateUpdateClientRequestStatusSettled simulates settling a client deposit
+		 * or withdrawal request by settling its associated fund income or expense
+		 * transaction.
+		 *
+		 * Only deposit and withdrawal transactions are supported. One transaction can
+		 * be processed per request.
+		 *
+		 * This API is available only in the spot environment and is not available in
+		 * production.
+		 *
+		 * Errors:
+		 *   - ErrExpiredApiKey
+		 *   - ErrExpiredAuthToken
+		 *   - ErrInternal
+		 *   - ErrInvalidAuthSignature
+		 *   - ErrInvalidAuthToken
+		 *   - ErrInvalidHeader
+		 *   - ErrInvalidPublicKey
+		 *   - ErrInvalidRoute
+		 *   - ErrMissingHeader
+		 *   - ErrRateLimitExceeded
+		 *   - ErrUnauthorizedIPAddress
+		 */
+		async simulateUpdateClientRequestStatusSettled(input: SimulateUpdateClientRequestStatusSettledInput) : Promise<SimulateUpdateClientRequestStatusSettledOutput> {
+			return this.command<SimulateUpdateClientRequestStatusSettledInput, SimulateUpdateClientRequestStatusSettledOutput>("simulate_update_client_request_status_settled", input)
+		}
+
+		/** Simulates approving a client, and updating the client status to active.
+		 *
+		 * This API is available only in the spot environment and is not available in production.
+		 *
+		 * Errors:
+		 *   - ErrExpiredApiKey
+		 *   - ErrExpiredAuthToken
+		 *   - ErrInternal
+		 *   - ErrInvalidAuthSignature
+		 *   - ErrInvalidAuthToken
+		 *   - ErrInvalidHeader
+		 *   - ErrInvalidPublicKey
+		 *   - ErrInvalidRoute
+		 *   - ErrMissingHeader
+		 *   - ErrMissingParameter
+		 *   - ErrOperationNotAllowed
+		 *   - ErrRateLimitExceeded
+		 *   - ErrUnauthorizedIPAddress
+		 */
+		async simulateUpdateClientStatusApproved(input: SimulateUpdateClientStatusApprovedInput) : Promise<SimulateUpdateClientStatusApprovedOutput> {
+			return this.command<SimulateUpdateClientStatusApprovedInput, SimulateUpdateClientStatusApprovedOutput>("simulate_update_client_status_approved", input)
 		}
 
 	}
