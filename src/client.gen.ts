@@ -331,6 +331,9 @@ export namespace Partner {
 	}
 
 	export interface CreateDuitnowPaymentOutput {
+		/** ReferenceID is the reference ID used to identify the DuitNow payment. */
+		referenceId: string
+		/** Url is the redirect URL for completing the DuitNow payment. */
 		url: string
 	}
 
@@ -1044,6 +1047,22 @@ export namespace Partner {
 		externalURl: string
 	}
 
+	export interface SimulateCompleteDuitnowPaymentInput {
+		/** ClientID is the ID of the client who initiated the DuitNow payment.
+		 *
+		 * Required.
+		 */
+		clientId: string
+		/** ReferenceID is the DuitNow payment reference ID.
+		 *
+		 * Required.
+		 */
+		referenceId: string
+	}
+
+	export interface SimulateCompleteDuitnowPaymentOutput {
+	}
+
 	export interface SimulateCreateIndividualClientFromApplicantInput {
 		/** ApplicantID is the ID of the applicant to create the client from.
 		 *
@@ -1681,6 +1700,31 @@ export namespace Partner {
 			return this.query<ListPortfoliosInput, ListPortfoliosOutput>("list_portfolios", input)
 		}
 
+		/** SimulateCompleteDuitnowPayment simulates completing a DuitNow payment for a
+		 * deposit request.
+		 *
+		 * This API is available only in the spot environment and is not available in
+		 * production.
+		 *
+		 * Errors:
+		 *   - ErrExpiredApiKey
+		 *   - ErrExpiredAuthToken
+		 *   - ErrInternal
+		 *   - ErrInvalidAuthSignature
+		 *   - ErrInvalidAuthToken
+		 *   - ErrInvalidHeader
+		 *   - ErrInvalidParameter
+		 *   - ErrInvalidPublicKey
+		 *   - ErrInvalidRoute
+		 *   - ErrMissingHeader
+		 *   - ErrMissingParameter
+		 *   - ErrRateLimitExceeded
+		 *   - ErrUnauthorizedIPAddress
+		 */
+		async simulateCompleteDuitnowPayment(input: SimulateCompleteDuitnowPaymentInput) : Promise<SimulateCompleteDuitnowPaymentOutput> {
+			return this.command<SimulateCompleteDuitnowPaymentInput, SimulateCompleteDuitnowPaymentOutput>("simulate_complete_duitnow_payment", input)
+		}
+
 		/** Simulates creating an individual client after being onboarded using Halogen Wallet.
 		 *
 		 * This API is available only in the spot environment and is not available in production.
@@ -1776,6 +1820,19 @@ export namespace Partner {
 		/** SimulateUpdateClientRequestStatusApproved simulates approving a client deposit
 		 * or withdrawal request by booking its associated fund income or expense
 		 * transaction.
+		 *
+		 * To simulate a deposit request after the client is active:
+		 *
+		 * 1. Call CreateDepositRequest API.
+		 * 2. Call CreateDuitnowPayment API.
+		 * 3. Call SimulateCompleteDuitnowPayment API to complete the DuitNow payment.
+		 * 4. Call SimulateUpdateClientRequestStatusApproved API to approve the request.
+		 *
+		 * To simulate a withdrawal request after the client is active:
+		 *
+		 * 1. Call CreateWithdrawalRequest API.
+		 * 2. Call SimulateUpdateClientRequestStatusApproved API to approve the request.
+		 * 3. Call SimulateUpdateClientRequestStatusSettled API to settle the request.
 		 *
 		 * Only deposit and withdrawal transactions are supported. One transaction can
 		 * be processed per request.
