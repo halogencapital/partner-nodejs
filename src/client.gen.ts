@@ -104,6 +104,7 @@ export namespace Partner {
 	}
 
 	export interface BankAccount {
+		clientAccountId: string
 		accountNumber: string
 		accountName: string
 		accountCurrency: string
