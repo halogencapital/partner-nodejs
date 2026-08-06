@@ -1703,8 +1703,7 @@ export namespace Partner {
 		/** SimulateCompleteDuitnowPayment simulates completing a DuitNow payment for a
 		 * deposit request.
 		 *
-		 * This API is available only in the spot environment and is not available in
-		 * production.
+		 * This API is available only in the spot environment and is not available in production.
 		 *
 		 * Errors:
 		 *   - ErrExpiredApiKey
@@ -1751,8 +1750,14 @@ export namespace Partner {
 		 * from the generated plan instructions, books the trades, and marks the plan as
 		 * completed.
 		 *
-		 * This API is available only in the spot environment and is not available in
-		 * production.
+		 * Deposit requests must first be approved and settled by calling:
+		 *
+		 * 1. SimulateUpdateClientRequestStatusApproved API.
+		 * 2. SimulateUpdateClientRequestStatusSettled API.
+		 *
+		 * Otherwise, the deposited funds will not be included in the portfolio rebalance.
+		 *
+		 * This API is available only in the spot environment and is not available in production.
 		 *
 		 * Errors:
 		 *   - ErrExpiredApiKey
@@ -1821,24 +1826,22 @@ export namespace Partner {
 		 * or withdrawal request by booking its associated fund income or expense
 		 * transaction.
 		 *
-		 * To simulate a deposit request after the client is active:
+		 * To simulate a deposit request approved after the client is active:
 		 *
 		 * 1. Call CreateDepositRequest API.
 		 * 2. Call CreateDuitnowPayment API.
 		 * 3. Call SimulateCompleteDuitnowPayment API to complete the DuitNow payment.
 		 * 4. Call SimulateUpdateClientRequestStatusApproved API to approve the request.
 		 *
-		 * To simulate a withdrawal request after the client is active:
+		 * To simulate a withdrawal request approved after the client is active:
 		 *
 		 * 1. Call CreateWithdrawalRequest API.
 		 * 2. Call SimulateUpdateClientRequestStatusApproved API to approve the request.
-		 * 3. Call SimulateUpdateClientRequestStatusSettled API to settle the request.
 		 *
 		 * Only deposit and withdrawal transactions are supported. One transaction can
 		 * be processed per request.
 		 *
-		 * This API is available only in the spot environment and is not available in
-		 * production.
+		 * This API is available only in the spot environment and is not available in production.
 		 *
 		 * Errors:
 		 *   - ErrExpiredApiKey
@@ -1861,11 +1864,24 @@ export namespace Partner {
 		 * or withdrawal request by settling its associated fund income or expense
 		 * transaction.
 		 *
+		 * To simulate a deposit request settled after the deposit is approved and client is active:
+		 *
+		 * 1. Call CreateDepositRequest API.
+		 * 2. Call CreateDuitnowPayment API.
+		 * 3. Call SimulateCompleteDuitnowPayment API to complete the DuitNow payment.
+		 * 4. Call SimulateUpdateClientRequestStatusApproved API to approve the request.
+		 * 5. Call SimulateUpdateClientRequestStatusSettled API to settle the request.
+		 *
+		 * To simulate a withdrawal request settled after the withdrawal is approved and client is active:
+		 *
+		 * 1. Call CreateWithdrawalRequest API.
+		 * 2. Call SimulateUpdateClientRequestStatusApproved API to approve the request.
+		 * 3. Call SimulateUpdateClientRequestStatusSettled API to settle the request.
+		 *
 		 * Only deposit and withdrawal transactions are supported. One transaction can
 		 * be processed per request.
 		 *
-		 * This API is available only in the spot environment and is not available in
-		 * production.
+		 * This API is available only in the spot environment and is not available in production.
 		 *
 		 * Errors:
 		 *   - ErrExpiredApiKey
