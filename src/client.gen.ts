@@ -1446,6 +1446,7 @@ export namespace Partner {
 		 * Errors:
 		 *   - ErrExpiredApiKey
 		 *   - ErrExpiredAuthToken
+		 *   - ErrInsufficientAccess
 		 *   - ErrInternal
 		 *   - ErrInvalidAuthSignature
 		 *   - ErrInvalidAuthToken
@@ -1457,7 +1458,6 @@ export namespace Partner {
 		 *   - ErrMissingParameter
 		 *   - ErrRateLimitExceeded
 		 *   - ErrUnauthorizedIPAddress
-		 *   - InsufficientAccess
 		 */
 		async getPortfolio(input: GetPortfolioInput) : Promise<GetPortfolioOutput> {
 			return this.query<GetPortfolioInput, GetPortfolioOutput>("get_portfolio", input)
@@ -1578,6 +1578,7 @@ export namespace Partner {
 		 * Errors:
 		 *   - ErrExpiredApiKey
 		 *   - ErrExpiredAuthToken
+		 *   - ErrInsufficientAccess
 		 *   - ErrInternal
 		 *   - ErrInvalidAuthSignature
 		 *   - ErrInvalidAuthToken
@@ -1589,7 +1590,6 @@ export namespace Partner {
 		 *   - ErrMissingParameter
 		 *   - ErrRateLimitExceeded
 		 *   - ErrUnauthorizedIPAddress
-		 *   - InsufficientAccess
 		 */
 		async listClients(input: ListClientsInput) : Promise<ListClientsOutput> {
 			return this.query<ListClientsInput, ListClientsOutput>("list_clients", input)
@@ -1684,6 +1684,7 @@ export namespace Partner {
 		 * Errors:
 		 *   - ErrExpiredApiKey
 		 *   - ErrExpiredAuthToken
+		 *   - ErrInsufficientAccess
 		 *   - ErrInternal
 		 *   - ErrInvalidAuthSignature
 		 *   - ErrInvalidAuthToken
@@ -1694,7 +1695,6 @@ export namespace Partner {
 		 *   - ErrMissingParameter
 		 *   - ErrRateLimitExceeded
 		 *   - ErrUnauthorizedIPAddress
-		 *   - InsufficientAccess
 		 */
 		async listPortfolios(input: ListPortfoliosInput) : Promise<ListPortfoliosOutput> {
 			return this.query<ListPortfoliosInput, ListPortfoliosOutput>("list_portfolios", input)
