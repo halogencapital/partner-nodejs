@@ -443,7 +443,7 @@ export namespace Partner {
 		 * Required.
 		 */
 		applicantIsPep: string
-		/** ApplicantInRelationWithPEP specifies whether the applicant is related to
+		/** ApplicantInRelationWithPep specifies whether the applicant is related to
 		 * a politically exposed person.
 		 *
 		 * Required.
@@ -501,32 +501,52 @@ export namespace Partner {
 		 * Required only when applicable to the selected investor category.
 		 */
 		accreditedLicenseNumber?: string
-		/** RelatedPEPName is the name of the related politically exposed person.
+		/** PepCountry is the country associated with the client's politically exposed person status.
 		 *
-		 * Required only if ApplicantInRelationWithPEP is "yes".
+		 * Required only if ApplicantIsPep is "yes".
 		 */
-		relatedPEPName?: string
-		/** RelatedPEPPosition is the position held by the related politically exposed person.
+		pepCountry?: string
+		/** PepPosition is the position held by the client as a politically exposed person.
 		 *
-		 * Required only if ApplicantInRelationWithPEP is "yes".
+		 * Required only if ApplicantIsPep is "yes".
 		 */
-		relatedPEPPosition?: string
-		/** RelatedPEPOrganisation is the organisation associated with the related
+		pepPosition?: string
+		/** PepOrganisation is the organisation associated with the client as a politically exposed person.
+		 *
+		 * Required only if ApplicantIsPep is "yes".
+		 */
+		pepOrganisation?: string
+		/** RelatedPepName is the name of the related politically exposed person.
+		 *
+		 * Required only if ApplicantInRelationWithPep is "yes".
+		 */
+		relatedPepName?: string
+		/** RelatedPepCountry is the country associated with the related politically exposed person.
+		 *
+		 * Required only if ApplicantInRelationWithPep is "yes".
+		 */
+		relatedPepCountry?: string
+		/** RelatedPepPosition is the position held by the related politically exposed person.
+		 *
+		 * Required only if ApplicantInRelationWithPep is "yes".
+		 */
+		relatedPepPosition?: string
+		/** RelatedPepOrganisation is the organisation associated with the related
 		 * politically exposed person.
 		 *
-		 * Required only if ApplicantInRelationWithPEP is "yes".
+		 * Required only if ApplicantInRelationWithPep is "yes".
 		 */
-		relatedPEPOrganisation?: string
+		relatedPepOrganisation?: string
 		/** RelatedPEPRelationshipWithApplicant specifies the applicant's relationship
 		 * with the politically exposed person.
 		 *
-		 * Required only if ApplicantInRelationWithPEP is "yes".
+		 * Required only if ApplicantInRelationWithPep is "yes".
 		 */
-		relatedPEPRelationshipWithApplicant?: string
+		relatedPepRelationshipWithApplicant?: string
 		/** RelatedPepFinancialRelationship specifies the applicant's financial
 		 * relationship with the related politically exposed person.
 		 *
-		 * Required only if ApplicantInRelationWithPEP is "yes".
+		 * Required only if ApplicantInRelationWithPep is "yes".
 		 */
 		relatedPepFinancialRelationship?: string
 		/** SuitabilityAssessment contains the client's suitability assessment and
