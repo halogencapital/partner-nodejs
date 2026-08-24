@@ -343,21 +343,41 @@ export namespace Partner {
 		 * Required.
 		 */
 		name: string
-		/** Nationality is the nationality of the client.
-		 *
-		 * Required.
-		 */
-		nationality: string
-		/** Msisdn is the phone number of the client.
-		 *
-		 * Required.
-		 */
-		msisdn: string
 		/** Email is the email address of the client.
 		 *
 		 * Required.
 		 */
 		email: string
+		/** Msisdn is the phone number of the client.
+		 *
+		 * Required.
+		 */
+		msisdn: string
+		/** NricNo is the Malaysian NRIC number of the client.
+		 *
+		 * Required only for Malaysian clients.
+		 */
+		nricNo?: string
+		/** PassportNo is the passport number of the client.
+		 *
+		 * Required only for non-Malaysian clients.
+		 */
+		passportNo?: string
+		/** Nationality is the nationality of the client.
+		 *
+		 * Required.
+		 */
+		nationality: string
+		/** DateOfBirth is the date of birth of the client.
+		 *
+		 * Required only for non-Malaysian clients.
+		 */
+		dateOfBirth?: string
+		/** Gender is the gender of the client.
+		 *
+		 * Required only for non-Malaysian clients.
+		 */
+		gender?: string
 		/** PermanentAddressLine1 is the first line of the client's permanent address.
 		 *
 		 * Required.
@@ -417,63 +437,15 @@ export namespace Partner {
 		 * Required.
 		 */
 		employmentType: string
-		/** SourceOfWealth specifies the client's sources of wealth.
-		 *
-		 * Required.
-		 */
-		sourceOfWealth: string[]
-		/** InvestorCategory specifies the client's investor category.
-		 *
-		 * Required.
-		 */
-		investorCategory: string
-		/** HighNetWorthInvestorCategory specifies the client's high-net-worth
-		 * investor classification.
-		 *
-		 * Required only if InvestorCategory is a highNetworthInvestor investor category.
-		 */
-		highNetWorthInvestorCategory?: string
-		/** USPerson specifies whether the client is a US person.
-		 *
-		 * Required.
-		 */
-		usPerson: string
-		/** ApplicantIsPep specifies whether the applicant is a politically exposed person.
-		 *
-		 * Required.
-		 */
-		applicantIsPep: string
-		/** ApplicantInRelationWithPep specifies whether the applicant is related to
-		 * a politically exposed person.
-		 *
-		 * Required.
-		 */
-		applicantInRelationWithPep: string
-		/** NricNo is the Malaysian NRIC number of the client.
-		 *
-		 * Required only for Malaysian clients.
-		 */
-		nricNo?: string
-		/** PassportNo is the passport number of the client.
-		 *
-		 * Required only for non-Malaysian clients.
-		 */
-		passportNo?: string
-		/** DateOfBirth is the date of birth of the client.
-		 *
-		 * Required only for non-Malaysian clients.
-		 */
-		dateOfBirth?: string
-		/** Gender is the gender of the client.
-		 *
-		 * Required only for non-Malaysian clients.
-		 */
-		gender?: string
 		/** OtherEmploymentType specifies the employment type when EmploymentType is "other".
 		 *
-		 * Required only if EmploymentType is "other".
+		 * Deprecated: "other" has been removed from the possible EmploymentType values.
+		 * OtherEmploymentType remains supported for existing integrations, but should
+		 * not be used for new submissions.
 		 */
 		otherEmploymentType?: string
+		/** CompanyName is the name of the client's employer or company. */
+		companyName?: string
 		/** Designation is the client's job designation. */
 		designation?: string
 		/** NatureOfBusiness specifies the nature of the client's business. */
@@ -484,23 +456,26 @@ export namespace Partner {
 		 * Required only if NatureOfBusiness is "other".
 		 */
 		otherNatureOfBusiness?: string
-		/** PurposeOfInvestment specifies the client's purpose for making the investment. */
-		purposeOfInvestment?: string
-		/** CompanyName is the name of the client's employer or company. */
-		companyName?: string
-		/** AnnualIncome specifies the client's annual income range. */
-		annualIncome?: string
+		/** SourceOfWealth specifies the client's sources of wealth.
+		 *
+		 * Required.
+		 */
+		sourceOfWealth: string[]
 		/** OtherSourceOfWealth specifies the source of wealth when SourceOfWealth
 		 * contains "other".
 		 *
 		 * Required only if SourceOfWealth contains "other".
 		 */
 		otherSourceOfWealth?: string
-		/** AccreditedLicenseNumber is the client's accredited investor licence number.
+		/** AnnualIncome specifies the client's annual income range. */
+		annualIncome?: string
+		/** PurposeOfInvestment specifies the client's purpose for making the investment. */
+		purposeOfInvestment?: string
+		/** ApplicantIsPep specifies whether the applicant is a politically exposed person.
 		 *
-		 * Required only when applicable to the selected investor category.
+		 * Required.
 		 */
-		accreditedLicenseNumber?: string
+		applicantIsPep: string
 		/** PepCountry is the country associated with the client's politically exposed person status.
 		 *
 		 * Required only if ApplicantIsPep is "yes".
@@ -516,6 +491,12 @@ export namespace Partner {
 		 * Required only if ApplicantIsPep is "yes".
 		 */
 		pepOrganisation?: string
+		/** ApplicantInRelationWithPep specifies whether the applicant is related to
+		 * a politically exposed person.
+		 *
+		 * Required.
+		 */
+		applicantInRelationWithPep: string
 		/** RelatedPepName is the name of the related politically exposed person.
 		 *
 		 * Required only if ApplicantInRelationWithPep is "yes".
@@ -549,10 +530,30 @@ export namespace Partner {
 		 * Required only if ApplicantInRelationWithPep is "yes".
 		 */
 		relatedPepFinancialRelationship?: string
-		/** SuitabilityAssessment contains the client's suitability assessment and
-		 * risk profile information.
+		/** InvestorCategory specifies the client's investor category.
 		 *
-		 * Required
+		 * Required.
+		 */
+		investorCategory: string
+		/** HighNetWorthInvestorCategory specifies the client's high-net-worth
+		 * investor classification.
+		 *
+		 * Required only if InvestorCategory is a highNetworthInvestor investor category.
+		 */
+		highNetWorthInvestorCategory?: string
+		/** AccreditedLicenseNumber is the client's accredited investor licence number.
+		 *
+		 * Required only when applicable to the selected investor category.
+		 */
+		accreditedLicenseNumber?: string
+		/** USPerson specifies whether the client is a US person.
+		 *
+		 * Required.
+		 */
+		usPerson: string
+		/** SuitabilityAssessment contains the client's risk profile assessment details.
+		 * Providing this field allows the client and suitability assessment to be created in a
+		 * single request without calling the CreateSuitabilityAssessment API separately.
 		 */
 		suitabilityAssessment?: SuitabilityAssessment
 	}
