@@ -437,13 +437,6 @@ export namespace Partner {
 		 * Required.
 		 */
 		employmentType: string
-		/** OtherEmploymentType specifies the employment type when EmploymentType is "other".
-		 *
-		 * Deprecated: "other" has been removed from the possible EmploymentType values.
-		 * OtherEmploymentType remains supported for existing integrations, but should
-		 * not be used for new submissions.
-		 */
-		otherEmploymentType?: string
 		/** CompanyName is the name of the client's employer or company. */
 		companyName?: string
 		/** Designation is the client's job designation. */
