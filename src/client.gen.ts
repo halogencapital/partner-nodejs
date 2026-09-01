@@ -1181,6 +1181,10 @@ export namespace Partner {
 		returnExpectations: string
 	}
 
+	export interface RequestOptions {
+		idempotencyKey?: string
+	}
+
 	export interface HttpClientOptions {
 		/**
 		 * The keyId provided by the Partner portal when the API key is created.
@@ -1245,8 +1249,8 @@ export namespace Partner {
 		 *   - ErrRateLimitExceeded
 		 *   - ErrUnauthorizedIPAddress
 		 */
-		async createAccount(input: CreateAccountInput) : Promise<CreateAccountOutput> {
-			return this.command<CreateAccountInput, CreateAccountOutput>("create_account", input)
+		async createAccount(input: CreateAccountInput, options?: RequestOptions) : Promise<CreateAccountOutput> {
+			return this.command<CreateAccountInput, CreateAccountOutput>("create_account", input, options)
 		}
 
 		/** CreateClientBankAccounts creates client bank accounts for the client.
@@ -1267,8 +1271,8 @@ export namespace Partner {
 		 *   - ErrRateLimitExceeded
 		 *   - ErrUnauthorizedIPAddress
 		 */
-		async createClientBankAccounts(input: CreateClientBankAccountsInput) : Promise<CreateClientBankAccountsOutput> {
-			return this.command<CreateClientBankAccountsInput, CreateClientBankAccountsOutput>("create_client_bank_accounts", input)
+		async createClientBankAccounts(input: CreateClientBankAccountsInput, options?: RequestOptions) : Promise<CreateClientBankAccountsOutput> {
+			return this.command<CreateClientBankAccountsInput, CreateClientBankAccountsOutput>("create_client_bank_accounts", input, options)
 		}
 
 		/** CreateClientDocumentFromUrl creates client onboarding
@@ -1290,8 +1294,8 @@ export namespace Partner {
 		 *   - ErrRateLimitExceeded
 		 *   - ErrUnauthorizedIPAddress
 		 */
-		async createClientDocumentFromUrl(input: CreateClientDocumentFromUrlInput) : Promise<CreateClientDocumentFromUrlOutput> {
-			return this.command<CreateClientDocumentFromUrlInput, CreateClientDocumentFromUrlOutput>("create_client_document_from_url", input)
+		async createClientDocumentFromUrl(input: CreateClientDocumentFromUrlInput, options?: RequestOptions) : Promise<CreateClientDocumentFromUrlOutput> {
+			return this.command<CreateClientDocumentFromUrlInput, CreateClientDocumentFromUrlOutput>("create_client_document_from_url", input, options)
 		}
 
 		/** CreateDepositRequest creates a deposit request for a portfolio account.
@@ -1313,8 +1317,8 @@ export namespace Partner {
 		 *   - ErrRateLimitExceeded
 		 *   - ErrUnauthorizedIPAddress
 		 */
-		async createDepositRequest(input: CreateDepositRequestInput) : Promise<CreateDepositRequestOutput> {
-			return this.command<CreateDepositRequestInput, CreateDepositRequestOutput>("create_deposit_request", input)
+		async createDepositRequest(input: CreateDepositRequestInput, options?: RequestOptions) : Promise<CreateDepositRequestOutput> {
+			return this.command<CreateDepositRequestInput, CreateDepositRequestOutput>("create_deposit_request", input, options)
 		}
 
 		/** CreateDuitnowPayment creates a DuitNow payment URL for a deposit request.
@@ -1337,8 +1341,8 @@ export namespace Partner {
 		 *   - ErrRateLimitExceeded
 		 *   - ErrUnauthorizedIPAddress
 		 */
-		async createDuitnowPayment(input: CreateDuitnowPaymentInput) : Promise<CreateDuitnowPaymentOutput> {
-			return this.command<CreateDuitnowPaymentInput, CreateDuitnowPaymentOutput>("create_duitnow_payment", input)
+		async createDuitnowPayment(input: CreateDuitnowPaymentInput, options?: RequestOptions) : Promise<CreateDuitnowPaymentOutput> {
+			return this.command<CreateDuitnowPaymentInput, CreateDuitnowPaymentOutput>("create_duitnow_payment", input, options)
 		}
 
 		/** CreateIndividualClient creates an individual client or returns the existing client if one already exists.
@@ -1360,8 +1364,8 @@ export namespace Partner {
 		 *   - ErrRateLimitExceeded
 		 *   - ErrUnauthorizedIPAddress
 		 */
-		async createIndividualClient(input: CreateIndividualClientInput) : Promise<CreateIndividualClientOutput> {
-			return this.command<CreateIndividualClientInput, CreateIndividualClientOutput>("create_individual_client", input)
+		async createIndividualClient(input: CreateIndividualClientInput, options?: RequestOptions) : Promise<CreateIndividualClientOutput> {
+			return this.command<CreateIndividualClientInput, CreateIndividualClientOutput>("create_individual_client", input, options)
 		}
 
 		/** CreateRequestCancellation cancels a pending portfolio request.
@@ -1383,8 +1387,8 @@ export namespace Partner {
 		 *   - ErrRequestCannotBeCancelled
 		 *   - ErrUnauthorizedIPAddress
 		 */
-		async createRequestCancellation(input: CreateRequestCancellationInput) : Promise<CreateRequestCancellationOutput> {
-			return this.command<CreateRequestCancellationInput, CreateRequestCancellationOutput>("create_request_cancellation", input)
+		async createRequestCancellation(input: CreateRequestCancellationInput, options?: RequestOptions) : Promise<CreateRequestCancellationOutput> {
+			return this.command<CreateRequestCancellationInput, CreateRequestCancellationOutput>("create_request_cancellation", input, options)
 		}
 
 		/** CreateSuitabilityAssessment creates a suitability assessment for the client.
@@ -1406,8 +1410,8 @@ export namespace Partner {
 		 *   - ErrRateLimitExceeded
 		 *   - ErrUnauthorizedIPAddress
 		 */
-		async createSuitabilityAssessment(input: CreateSuitabilityAssessmentInput) : Promise<CreateSuitabilityAssessmentOutput> {
-			return this.command<CreateSuitabilityAssessmentInput, CreateSuitabilityAssessmentOutput>("create_suitability_assessment", input)
+		async createSuitabilityAssessment(input: CreateSuitabilityAssessmentInput, options?: RequestOptions) : Promise<CreateSuitabilityAssessmentOutput> {
+			return this.command<CreateSuitabilityAssessmentInput, CreateSuitabilityAssessmentOutput>("create_suitability_assessment", input, options)
 		}
 
 		/** CreateWithdrawalRequest creates a withdrawal request for a portfolio account.
@@ -1429,8 +1433,8 @@ export namespace Partner {
 		 *   - ErrRateLimitExceeded
 		 *   - ErrUnauthorizedIPAddress
 		 */
-		async createWithdrawalRequest(input: CreateWithdrawalRequestInput) : Promise<CreateWithdrawalRequestOutput> {
-			return this.command<CreateWithdrawalRequestInput, CreateWithdrawalRequestOutput>("create_withdrawal_request", input)
+		async createWithdrawalRequest(input: CreateWithdrawalRequestInput, options?: RequestOptions) : Promise<CreateWithdrawalRequestOutput> {
+			return this.command<CreateWithdrawalRequestInput, CreateWithdrawalRequestOutput>("create_withdrawal_request", input, options)
 		}
 
 		/** GetClientAccountPortfolioAllocationPerformance retrieves historical performance data for a specific portfolio allocation.
@@ -1734,8 +1738,8 @@ export namespace Partner {
 		 *   - ErrRateLimitExceeded
 		 *   - ErrUnauthorizedIPAddress
 		 */
-		async simulateCompleteDuitnowPayment(input: SimulateCompleteDuitnowPaymentInput) : Promise<SimulateCompleteDuitnowPaymentOutput> {
-			return this.command<SimulateCompleteDuitnowPaymentInput, SimulateCompleteDuitnowPaymentOutput>("simulate_complete_duitnow_payment", input)
+		async simulateCompleteDuitnowPayment(input: SimulateCompleteDuitnowPaymentInput, options?: RequestOptions) : Promise<SimulateCompleteDuitnowPaymentOutput> {
+			return this.command<SimulateCompleteDuitnowPaymentInput, SimulateCompleteDuitnowPaymentOutput>("simulate_complete_duitnow_payment", input, options)
 		}
 
 		/** Simulates creating an individual client after being onboarded using Halogen Wallet.
@@ -1756,8 +1760,8 @@ export namespace Partner {
 		 *   - ErrRateLimitExceeded
 		 *   - ErrUnauthorizedIPAddress
 		 */
-		async simulateCreateIndividualClientFromApplicant(input: SimulateCreateIndividualClientFromApplicantInput) : Promise<SimulateCreateIndividualClientFromApplicantOutput> {
-			return this.command<SimulateCreateIndividualClientFromApplicantInput, SimulateCreateIndividualClientFromApplicantOutput>("simulate_create_individual_client_from_applicant", input)
+		async simulateCreateIndividualClientFromApplicant(input: SimulateCreateIndividualClientFromApplicantInput, options?: RequestOptions) : Promise<SimulateCreateIndividualClientFromApplicantOutput> {
+			return this.command<SimulateCreateIndividualClientFromApplicantInput, SimulateCreateIndividualClientFromApplicantOutput>("simulate_create_individual_client_from_applicant", input, options)
 		}
 
 		/** SimulatePortfolioRebalance creates a portfolio rebalance plan, creates trades
@@ -1786,8 +1790,8 @@ export namespace Partner {
 		 *   - ErrRateLimitExceeded
 		 *   - ErrUnauthorizedIPAddress
 		 */
-		async simulatePortfolioRebalance(input: SimulatePortfolioRebalanceInput) : Promise<SimulatePortfolioRebalanceOutput> {
-			return this.command<SimulatePortfolioRebalanceInput, SimulatePortfolioRebalanceOutput>("simulate_portfolio_rebalance", input)
+		async simulatePortfolioRebalance(input: SimulatePortfolioRebalanceInput, options?: RequestOptions) : Promise<SimulatePortfolioRebalanceOutput> {
+			return this.command<SimulatePortfolioRebalanceInput, SimulatePortfolioRebalanceOutput>("simulate_portfolio_rebalance", input, options)
 		}
 
 		/** SimulateUpdateClientBankAccountStatusVerificationFailed simulates marking a
@@ -1810,8 +1814,8 @@ export namespace Partner {
 		 *   - ErrRateLimitExceeded
 		 *   - ErrUnauthorizedIPAddress
 		 */
-		async simulateUpdateClientBankAccountStatusVerificationFailed(input: SimulateUpdateClientBankAccountStatusVerificationFailedInput) : Promise<SimulateUpdateClientBankAccountStatusVerificationFailedOutput> {
-			return this.command<SimulateUpdateClientBankAccountStatusVerificationFailedInput, SimulateUpdateClientBankAccountStatusVerificationFailedOutput>("simulate_update_client_bank_account_status_verification_failed", input)
+		async simulateUpdateClientBankAccountStatusVerificationFailed(input: SimulateUpdateClientBankAccountStatusVerificationFailedInput, options?: RequestOptions) : Promise<SimulateUpdateClientBankAccountStatusVerificationFailedOutput> {
+			return this.command<SimulateUpdateClientBankAccountStatusVerificationFailedInput, SimulateUpdateClientBankAccountStatusVerificationFailedOutput>("simulate_update_client_bank_account_status_verification_failed", input, options)
 		}
 
 		/** SimulateUpdateClientBankAccountStatusVerified simulates updating a client
@@ -1832,8 +1836,8 @@ export namespace Partner {
 		 *   - ErrRateLimitExceeded
 		 *   - ErrUnauthorizedIPAddress
 		 */
-		async simulateUpdateClientBankAccountStatusVerified(input: SimulateUpdateClientBankAccountStatusVerifiedInput) : Promise<SimulateUpdateClientBankAccountStatusVerifiedOutput> {
-			return this.command<SimulateUpdateClientBankAccountStatusVerifiedInput, SimulateUpdateClientBankAccountStatusVerifiedOutput>("simulate_update_client_bank_account_status_verified", input)
+		async simulateUpdateClientBankAccountStatusVerified(input: SimulateUpdateClientBankAccountStatusVerifiedInput, options?: RequestOptions) : Promise<SimulateUpdateClientBankAccountStatusVerifiedOutput> {
+			return this.command<SimulateUpdateClientBankAccountStatusVerifiedInput, SimulateUpdateClientBankAccountStatusVerifiedOutput>("simulate_update_client_bank_account_status_verified", input, options)
 		}
 
 		/** SimulateUpdateClientRequestStatusApproved simulates approving a client deposit
@@ -1870,8 +1874,8 @@ export namespace Partner {
 		 *   - ErrRateLimitExceeded
 		 *   - ErrUnauthorizedIPAddress
 		 */
-		async simulateUpdateClientRequestStatusApproved(input: SimulateUpdateClientRequestStatusApprovedInput) : Promise<SimulateUpdateClientRequestStatusApprovedOutput> {
-			return this.command<SimulateUpdateClientRequestStatusApprovedInput, SimulateUpdateClientRequestStatusApprovedOutput>("simulate_update_client_request_status_approved", input)
+		async simulateUpdateClientRequestStatusApproved(input: SimulateUpdateClientRequestStatusApprovedInput, options?: RequestOptions) : Promise<SimulateUpdateClientRequestStatusApprovedOutput> {
+			return this.command<SimulateUpdateClientRequestStatusApprovedInput, SimulateUpdateClientRequestStatusApprovedOutput>("simulate_update_client_request_status_approved", input, options)
 		}
 
 		/** SimulateUpdateClientRequestStatusSettled simulates settling a client deposit
@@ -1910,8 +1914,8 @@ export namespace Partner {
 		 *   - ErrRateLimitExceeded
 		 *   - ErrUnauthorizedIPAddress
 		 */
-		async simulateUpdateClientRequestStatusSettled(input: SimulateUpdateClientRequestStatusSettledInput) : Promise<SimulateUpdateClientRequestStatusSettledOutput> {
-			return this.command<SimulateUpdateClientRequestStatusSettledInput, SimulateUpdateClientRequestStatusSettledOutput>("simulate_update_client_request_status_settled", input)
+		async simulateUpdateClientRequestStatusSettled(input: SimulateUpdateClientRequestStatusSettledInput, options?: RequestOptions) : Promise<SimulateUpdateClientRequestStatusSettledOutput> {
+			return this.command<SimulateUpdateClientRequestStatusSettledInput, SimulateUpdateClientRequestStatusSettledOutput>("simulate_update_client_request_status_settled", input, options)
 		}
 
 		/** Simulates approving a client, and updating the client status to active.
@@ -1933,8 +1937,8 @@ export namespace Partner {
 		 *   - ErrRateLimitExceeded
 		 *   - ErrUnauthorizedIPAddress
 		 */
-		async simulateUpdateClientStatusApproved(input: SimulateUpdateClientStatusApprovedInput) : Promise<SimulateUpdateClientStatusApprovedOutput> {
-			return this.command<SimulateUpdateClientStatusApprovedInput, SimulateUpdateClientStatusApprovedOutput>("simulate_update_client_status_approved", input)
+		async simulateUpdateClientStatusApproved(input: SimulateUpdateClientStatusApprovedInput, options?: RequestOptions) : Promise<SimulateUpdateClientStatusApprovedOutput> {
+			return this.command<SimulateUpdateClientStatusApprovedInput, SimulateUpdateClientStatusApprovedOutput>("simulate_update_client_status_approved", input, options)
 		}
 
 	}
