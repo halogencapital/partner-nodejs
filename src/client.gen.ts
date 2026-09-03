@@ -437,11 +437,20 @@ export namespace Partner {
 		 * Required.
 		 */
 		employmentType: string
-		/** CompanyName is the name of the client's employer or company. */
+		/** CompanyName is the client's company name.
+		 *
+		 * Required for all employment types except "housewife" and "student".
+		 */
 		companyName?: string
-		/** Designation is the client's job designation. */
+		/** Designation is the client's job designation.
+		 *
+		 * Required for all employment types except "housewife" and "student".
+		 */
 		designation?: string
-		/** NatureOfBusiness specifies the nature of the client's business. */
+		/** NatureOfBusiness specifies the nature of the client's business.
+		 *
+		 * Required for all employment types except "housewife" and "student".
+		 */
 		natureOfBusiness?: string
 		/** OtherNatureOfBusiness specifies the nature of business when
 		 * NatureOfBusiness is "other".
@@ -460,7 +469,10 @@ export namespace Partner {
 		 * Required only if SourceOfWealth contains "other".
 		 */
 		otherSourceOfWealth?: string
-		/** AnnualIncome specifies the client's annual income range. */
+		/** AnnualIncome specifies the client's annual income range.
+		 *
+		 * Required for all employment types except "housewife" and "student".
+		 */
 		annualIncome?: string
 		/** PurposeOfInvestment specifies the client's purpose for making the investment. */
 		purposeOfInvestment?: string
