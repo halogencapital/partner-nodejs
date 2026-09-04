@@ -57,6 +57,8 @@ try {
             currentInvestment: "cashFixedDeposits",
             returnExpectations: "08040",
         },
+    }, {
+        idempotencyKey: "abf18e8928a04fc029e6e30911b3d9b4b03814ed5f29817007abc684a7eba61b"
     })
     console.dir(clientOutput, {depth: null});
 
@@ -68,6 +70,8 @@ try {
         clientId,
         name: chosenPortfolio.name,
         code: chosenPortfolio.code,
+    }, {
+        idempotencyKey: "e775919e99814f7f7780ec32d866ec8e24b26128f71d1a3368b43b0a53b2995d"
     })
     console.dir(accountOutput, {depth: null});
 
@@ -101,6 +105,8 @@ try {
             "consentVulnerablePersonDefinition": true
         },
         duitnowBankCode,
+    }, {
+        idempotencyKey: "7672c18f2be3271ae27fc0a33be863d5bc9f43381931c550cfdd02319a7d0555"
     })
     console.dir(depositRequest, {depth: null})
 

@@ -130,7 +130,7 @@ export default class Signer {
         throw err5XX
     }
     
-    protected async command<Input, Output>(name: string, input: Input): Promise<Output> {
+    protected async command<Input, Output>(name: string, input: Input, options?: { idempotencyKey?: string }): Promise<Output> {
         const ep = this.endpoint + "/command"
         const body = JSON.stringify({
             name,
@@ -141,7 +141,8 @@ export default class Signer {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": "Bearer " + token
+                "Authorization": "Bearer " + token,
+                ...(options?.idempotencyKey && { "Idempotency-Key": options.idempotencyKey }),
             },
             body,
         }
