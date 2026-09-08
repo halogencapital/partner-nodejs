@@ -1105,6 +1105,16 @@ export namespace Partner {
 		natures: NatureOfBusiness[]
 	}
 
+	/** ListPortfolioAssetsInput is the input for listing portfolio assets. */
+	export interface ListPortfolioAssetsInput {
+	}
+
+	/** ListPortfolioAssetsOutput contains the list of portfolio assets. */
+	export interface ListPortfolioAssetsOutput {
+		/** Assets is the list of portfolio assets available to the client. */
+		assets: PortfolioAsset[]
+	}
+
 	/** ListPortfolioLimitsInput is the input for listing portfolio transaction limits. */
 	export interface ListPortfolioLimitsInput {
 		/** ClientID is the ID of the client who owns the account.
@@ -1217,41 +1227,41 @@ export namespace Partner {
 
 	/** PortfolioAsset represents an individual asset within a portfolio. */
 	export interface PortfolioAsset {
-		/** ID of the asset. */
+		/** ID is the unique identifier of the asset. */
 		id: string
-		/** Code of the asset. */
+		/** Code is the code used to identify the asset. */
 		code: string
-		/** Name of the asset. */
+		/** Name is the name of the asset. */
 		name: string
-		/** Title displayed as the primary text for this asset in the web and mobile form components. */
+		/** Title is the primary display text of the asset. */
 		title: string
-		/** Subtitle displayed as the secondary/supporting text below the title in the web and mobile form components. */
+		/** Subtitle is the secondary display text of the asset. */
 		subtitle: string
-		/** Objective describes the investment objective of the asset. */
+		/** Objective describes the investment objective or purpose of the asset. */
 		objective: string
-		/** FundProvider specifies the provider or manager of the fund. */
+		/** FundProvider is the name of the provider or manager of the fund. */
 		fundProvider: string
-		/** URL of the asset image. */
+		/** ImageUrl is the URL of the image representing the asset. */
 		imageUrl: string
-		/** Type of asset, e.g., "spot" or "fund". */
+		/** Type specifies the type of asset. */
 		type: string
-		/** ShariahCompliant indicates whether the asset adheres to Shariah investment principles. */
+		/** ShariahCompliant indicates whether the asset complies with Shariah investment principles. */
 		shariahCompliant: boolean
-		/** Color used to represent the asset. */
+		/** HexColor is the hexadecimal color code used to represent the asset. */
 		hexColor: string
-		/** Group or category of the asset. */
+		/** Group is the group or category the asset belongs to. */
 		group: string
-		/** Color used to represent the asset group. */
+		/** GroupHexColor is the hexadecimal color code used to represent the asset group. */
 		groupHexColor: string
-		/** Target exposure percentage of this asset in the portfolio. */
+		/** ExposurePercentage specifies the target exposure percentage of the asset within the portfolio. */
 		exposurePercentage: number
-		/** Minimum allowed exposure percentage for this asset in the portfolio. */
+		/** MinimumExposurePercentage specifies the minimum allowed exposure percentage of the asset within the portfolio. */
 		minimumExposurePercentage: number
-		/** RiskScore specifies the risk level of the asset. */
+		/** RiskScore specifies the numerical risk score assigned to the asset. */
 		riskScore: number
-		/** ListingDate specifies the date when the asset was listed or made available. */
+		/** ListingDate specifies the date the asset was listed or made available. */
 		listingDate: string
-		/** ExternalURL is the URL to the asset's site document. */
+		/** ExternalURL is the URL to an external page containing additional information about the asset. */
 		externalURl: string
 	}
 
@@ -2116,6 +2126,27 @@ export namespace Partner {
 			return this.query<ListNatureOfBusinessesInput, ListNatureOfBusinessesOutput>("list_nature_of_businesses", input)
 		}
 
+		/** ListPortfolioAssets lists portfolio assets available to the client.
+		 *
+		 * Errors:
+		 *   - ErrExpiredApiKey
+		 *   - ErrExpiredAuthToken
+		 *   - ErrInsufficientAccess
+		 *   - ErrInternal
+		 *   - ErrInvalidAuthSignature
+		 *   - ErrInvalidAuthToken
+		 *   - ErrInvalidHeader
+		 *   - ErrInvalidPublicKey
+		 *   - ErrInvalidRoute
+		 *   - ErrMissingHeader
+		 *   - ErrMissingParameter
+		 *   - ErrRateLimitExceeded
+		 *   - ErrUnauthorizedIPAddress
+		 */
+		async listPortfolioAssets(input: ListPortfolioAssetsInput) : Promise<ListPortfolioAssetsOutput> {
+			return this.query<ListPortfolioAssetsInput, ListPortfolioAssetsOutput>("list_portfolio_assets", input)
+		}
+
 		/** ListPortfolioLimits lists the minimum and maximum deposit and withdrawal limits for a portfolio account.
 		 *
 		 * Errors:
@@ -2491,6 +2522,7 @@ export namespace Partner {
 		 *   - ErrInvalidAuthSignature
 		 *   - ErrInvalidAuthToken
 		 *   - ErrInvalidHeader
+		 *   - ErrInvalidParameter
 		 *   - ErrInvalidPublicKey
 		 *   - ErrInvalidRoute
 		 *   - ErrMissingHeader
