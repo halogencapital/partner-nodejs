@@ -1764,10 +1764,10 @@ export namespace Partner {
 		/** CreateSettlementBatch creates a batch for grouping client deposit requests
 		 * that will be paid together.
 		 *
-		 * Batch payments let you group multiple eligible client deposit requests and
+		 * Settlement batch lets you group multiple eligible client deposit requests and
 		 * make a single lump-sum payment instead of paying each request individually.
 		 *
-		 * To use batch payments:
+		 * To use settlement batch:
 		 *
 		 * 1. Create a settlement batch (createSettlementBatch).
 		 * 2. Add requests to the settlement batch (createSettlementBatchRequests).
@@ -1775,9 +1775,6 @@ export namespace Partner {
 		 *
 		 * You can make the bank transfer before or after completing these steps.
 		 * Halogen matches the payment to the submitted batch after the payment is received and verified.
-		 *
-		 * Batch payments are available where this payment flow has been agreed between
-		 * the partner and Halogen. Contact the Halogen team if you'd like to use this flow.
 		 *
 		 * Errors:
 		 *   - ErrExpiredApiKey
@@ -2194,7 +2191,7 @@ export namespace Partner {
 		/** SimulateCreateBankTransfer simulates receiving a bank transfer for a
 		 * settlement batch.
 		 *
-		 * In the spot environment, you can test the settlement batch payment flow
+		 * In the spot environment, you can test the settlement batch flow
 		 * without sending a real bank transfer.
 		 *
 		 * The bank transfer amount must match the total amount of the settlement batch
