@@ -741,6 +741,30 @@ export namespace Partner {
 		batchId: string
 	}
 
+	/** CreateSettlementBatchRequest represents a request to be added to a settlement batch. */
+	export interface CreateSettlementBatchRequest {
+		/** RequestID is the ID of the client deposit request.
+		 *
+		 * Required.
+		 */
+		requestId: string
+		/** ClientID is the ID of the client associated with the request.
+		 *
+		 * Required.
+		 */
+		clientId: string
+		/** AccountID is the ID of the client account associated with the request.
+		 *
+		 * Required.
+		 */
+		accountId: string
+		/** Amount is the amount of the request.
+		 *
+		 * Required.
+		 */
+		amount: number
+	}
+
 	/** CreateSettlementBatchRequestsInput is the input for adding requests to a
 	 * settlement batch.
 	 */
@@ -754,7 +778,7 @@ export namespace Partner {
 		 *
 		 * Required.
 		 */
-		requests: SettlementBatchRequest[]
+		requests: CreateSettlementBatchRequest[]
 	}
 
 	/** CreateSettlementBatchRequestsOutput is the response after successfully
@@ -1153,6 +1177,51 @@ export namespace Partner {
 		portfolios: Portfolio[]
 	}
 
+	/** ListSettlementBatchRequestsInput is the input for listing settlement batch requests. */
+	export interface ListSettlementBatchRequestsInput {
+		/** BatchID is the ID of the settlement batch to retrieve requests for.
+		 *
+		 * Required.
+		 */
+		batchId: string
+		/** Limit is the maximum number of settlement batch requests to return.
+		 * Defaults to 200 when omitted or set to 0.
+		 */
+		limit: number
+		/** Offset is the number of settlement batch requests to skip before returning results.
+		 * Defaults to 0 and must be a multiple of Limit.
+		 */
+		offset: number
+	}
+
+	/** ListSettlementBatchRequestsOutput contains the settlement batch requests. */
+	export interface ListSettlementBatchRequestsOutput {
+		/** TotalCount is the total number of settlement batch requests. */
+		totalCount: number
+		/** Requests is the list of requests included in the settlement batches. */
+		requests: SettlementBatchRequest[]
+	}
+
+	/** ListSettlementBatchesInput is the input for listing settlement batches. */
+	export interface ListSettlementBatchesInput {
+		/** Limit is the maximum number of settlement batches to return.
+		 * Defaults to 200 when omitted or set to 0.
+		 */
+		limit: number
+		/** Offset is the number of settlement batches to skip before returning results.
+		 * Defaults to 0 and must be a multiple of Limit.
+		 */
+		offset: number
+	}
+
+	/** ListSettlementBatchesOutput contains the settlement batches. */
+	export interface ListSettlementBatchesOutput {
+		/** TotalCount is the total number of settlement batch requests. */
+		totalCount: number
+		/** Batches is the list of settlement batches. */
+		batches: SettlementBatch[]
+	}
+
 	/** NatureOfBusiness represents an available nature of business option. */
 	export interface NatureOfBusiness {
 		/** ID is the ID of the nature of business. */
@@ -1265,28 +1334,50 @@ export namespace Partner {
 		externalURl: string
 	}
 
-	/** SettlementBatchRequest represents a request to be added to a settlement batch. */
+	/** SettlementBatch represents a settlement batch. */
+	export interface SettlementBatch {
+		/** ID is the ID of the settlement batch. */
+		id: string
+		/** Status is the current status of the settlement batch. */
+		status: string
+		/** Type is the type of settlement batch. */
+		type: string
+		/** BankTransactionID is the ID of the bank transaction associated with the settlement batch. */
+		bankTransactionId?: string
+		/** CreatedAt is the time the settlement batch was created. */
+		createdAt: string
+		/** CreatedBy is the ID of the user or partner that created the settlement batch. */
+		createdBy: string
+		/** SubmittedAt is the time the settlement batch was submitted. */
+		submittedAt?: string
+		/** SubmittedBy is the ID of the user or partner that submitted the settlement batch. */
+		submittedBy?: string
+		/** ApprovedAt is the time the settlement batch was approved. */
+		approvedAt?: string
+		/** ApprovedBy is the ID of the user or partner that approved the settlement batch. */
+		approvedBy?: string
+		/** CancelledAt is the time the settlement batch was cancelled. */
+		cancelledAt?: string
+		/** CancelledBy is the ID of the user or partner that cancelled the settlement batch. */
+		cancelledBy?: string
+	}
+
+	/** SettlementBatchRequest represents a client request included in a settlement batch. */
 	export interface SettlementBatchRequest {
-		/** RequestID is the ID of the client deposit request.
-		 *
-		 * Required.
-		 */
+		/** BatchID is the ID of the settlement batch containing the request. */
+		batchId: string
+		/** RequestID is the ID of the client deposit request. */
 		requestId: string
-		/** ClientID is the ID of the client associated with the request.
-		 *
-		 * Required.
-		 */
+		/** ClientID is the ID of the client associated with the request. */
 		clientId: string
-		/** AccountID is the ID of the client account associated with the request.
-		 *
-		 * Required.
-		 */
+		/** AccountID is the ID of the client account associated with the request. */
 		accountId: string
-		/** Amount is the amount of the request.
-		 *
-		 * Required.
-		 */
+		/** Amount is the amount of the request. */
 		amount: number
+		/** CreatedAt is the time the request was added to the settlement batch. */
+		createdAt: string
+		/** CreatedBy is the ID of the user or partner that added the request to the settlement batch. */
+		createdBy: string
 	}
 
 	/** SimulateCompleteDuitnowPaymentInput is the input for simulating the
@@ -2188,6 +2279,47 @@ export namespace Partner {
 		 */
 		async listPortfolios(input: ListPortfoliosInput) : Promise<ListPortfoliosOutput> {
 			return this.query<ListPortfoliosInput, ListPortfoliosOutput>("list_portfolios", input)
+		}
+
+		/** ListSettlementBatchRequests lists requests included in the specified settlement batches.
+		 *
+		 * Errors:
+		 *   - ErrExpiredApiKey
+		 *   - ErrExpiredAuthToken
+		 *   - ErrInternal
+		 *   - ErrInvalidAuthSignature
+		 *   - ErrInvalidAuthToken
+		 *   - ErrInvalidHeader
+		 *   - ErrInvalidParameter
+		 *   - ErrInvalidPublicKey
+		 *   - ErrInvalidRoute
+		 *   - ErrMissingHeader
+		 *   - ErrMissingParameter
+		 *   - ErrRateLimitExceeded
+		 *   - ErrUnauthorizedIPAddress
+		 */
+		async listSettlementBatchRequests(input: ListSettlementBatchRequestsInput) : Promise<ListSettlementBatchRequestsOutput> {
+			return this.query<ListSettlementBatchRequestsInput, ListSettlementBatchRequestsOutput>("list_settlement_batch_requests", input)
+		}
+
+		/** ListSettlementBatches lists settlement batches available to the partner.
+		 *
+		 * Errors:
+		 *   - ErrExpiredApiKey
+		 *   - ErrExpiredAuthToken
+		 *   - ErrInternal
+		 *   - ErrInvalidAuthSignature
+		 *   - ErrInvalidAuthToken
+		 *   - ErrInvalidHeader
+		 *   - ErrInvalidParameter
+		 *   - ErrInvalidPublicKey
+		 *   - ErrInvalidRoute
+		 *   - ErrMissingHeader
+		 *   - ErrRateLimitExceeded
+		 *   - ErrUnauthorizedIPAddress
+		 */
+		async listSettlementBatches(input: ListSettlementBatchesInput) : Promise<ListSettlementBatchesOutput> {
+			return this.query<ListSettlementBatchesInput, ListSettlementBatchesOutput>("list_settlement_batches", input)
 		}
 
 		/** SimulateCompleteDuitnowPayment simulates completing a DuitNow payment for a
