@@ -602,7 +602,10 @@ export namespace Partner {
 		 * [conditional] Required for all employment types except "housewife" and "student".
 		 */
 		annualIncome?: string
-		/** PurposeOfInvestment specifies the client's purpose for making the investment. */
+		/** PurposeOfInvestment specifies the client's purpose for making the investment.
+		 *
+		 * Required.
+		 */
 		purposeOfInvestment?: string
 		/** ApplicantIsPep specifies whether the applicant is a politically exposed person.
 		 *
@@ -724,6 +727,40 @@ export namespace Partner {
 	export interface CreateRequestCancellationOutput {
 		/** RequestID is the newly created request ID. */
 		requestId: string
+	}
+
+	/** CreateSettlementBatchInput is the input for creating a settlement batch. */
+	export interface CreateSettlementBatchInput {
+	}
+
+	/** CreateSettlementBatchOutput is the response after successfully creating a
+	 * settlement batch.
+	 */
+	export interface CreateSettlementBatchOutput {
+		/** BatchID is the ID of the newly created settlement batch. */
+		batchId: string
+	}
+
+	/** CreateSettlementBatchRequestsInput is the input for adding requests to a
+	 * settlement batch.
+	 */
+	export interface CreateSettlementBatchRequestsInput {
+		/** BatchID is the ID of the settlement batch.
+		 *
+		 * Required.
+		 */
+		batchId: string
+		/** Requests is the list of requests to add to the settlement batch.
+		 *
+		 * Required.
+		 */
+		requests: SettlementBatchRequest[]
+	}
+
+	/** CreateSettlementBatchRequestsOutput is the response after successfully
+	 * adding requests to a settlement batch.
+	 */
+	export interface CreateSettlementBatchRequestsOutput {
 	}
 
 	/** CreateSuitabilityAssessmentInput is the input for creating a suitability assessment. */
@@ -1218,6 +1255,30 @@ export namespace Partner {
 		externalURl: string
 	}
 
+	/** SettlementBatchRequest represents a request to be added to a settlement batch. */
+	export interface SettlementBatchRequest {
+		/** RequestID is the ID of the client deposit request.
+		 *
+		 * Required.
+		 */
+		requestId: string
+		/** ClientID is the ID of the client associated with the request.
+		 *
+		 * Required.
+		 */
+		clientId: string
+		/** AccountID is the ID of the client account associated with the request.
+		 *
+		 * Required.
+		 */
+		accountId: string
+		/** Amount is the amount of the request.
+		 *
+		 * Required.
+		 */
+		amount: number
+	}
+
 	/** SimulateCompleteDuitnowPaymentInput is the input for simulating the
 	 * completion of a DuitNow payment.
 	 */
@@ -1238,6 +1299,25 @@ export namespace Partner {
 	 * simulating the completion of a DuitNow payment.
 	 */
 	export interface SimulateCompleteDuitnowPaymentOutput {
+	}
+
+	/** SimulateCreateBankTransferInput is the input for simulating the creation of
+	 * a bank transfer.
+	 */
+	export interface SimulateCreateBankTransferInput {
+		/** Amount is the bank transfer amount.
+		 *
+		 * Required.
+		 */
+		amount: number
+	}
+
+	/** SimulateCreateBankTransferOutput is the response after successfully
+	 * simulating the creation of a bank transfer.
+	 */
+	export interface SimulateCreateBankTransferOutput {
+		/** ReferenceID is the reference ID returned when simulating the bank transfer. */
+		referenceId: string
 	}
 
 	/** SimulateCreateIndividualClientFromApplicantInput is the input for simulating
@@ -1378,6 +1458,29 @@ export namespace Partner {
 	export interface SimulateUpdateClientStatusApprovedOutput {
 	}
 
+	/** SimulateUpdateSettlementBatchStatusApprovedInput is the input for simulating
+	 * the approval of settlement batches.
+	 */
+	export interface SimulateUpdateSettlementBatchStatusApprovedInput {
+		/** BatchIDs is the list of settlement batch IDs to approve.
+		 *
+		 * Required.
+		 */
+		batchIDs: string[]
+		/** BankTransactionID is the ID of the bank transaction associated with the
+		 * settlement batches.
+		 *
+		 * Required.
+		 */
+		bankTransactionId: string
+	}
+
+	/** SimulateUpdateSettlementBatchStatusApprovedOutput is the response after
+	 * successfully simulating the approval of settlement batches.
+	 */
+	export interface SimulateUpdateSettlementBatchStatusApprovedOutput {
+	}
+
 	/** SuitabilityAssessment represents a client's investment suitability assessment. */
 	export interface SuitabilityAssessment {
 		/** InvestmentExperience describes the client's prior investment experience.
@@ -1410,6 +1513,23 @@ export namespace Partner {
 		 * Required.
 		 */
 		returnExpectations: string
+	}
+
+	/** UpdateSettlementBatchStatusSubmittedInput is the input for submitting a
+	 * settlement batch.
+	 */
+	export interface UpdateSettlementBatchStatusSubmittedInput {
+		/** BatchID is the ID of the settlement batch to submit.
+		 *
+		 * Required.
+		 */
+		batchId: string
+	}
+
+	/** UpdateSettlementBatchStatusSubmittedOutput is the response after
+	 * successfully submitting a settlement batch.
+	 */
+	export interface UpdateSettlementBatchStatusSubmittedOutput {
 	}
 
 	export interface RequestOptions {
@@ -1485,6 +1605,11 @@ export namespace Partner {
 
 		/** CreateClientBankAccounts creates client bank accounts for the client.
 		 *
+		 * Bank account verification happens asynchronously. Listen for
+		 * bank_account_verified webhook event or
+		 * bank_account_verification_failed webhook event
+		 * webhook events for the verification result.
+		 *
 		 * Errors:
 		 *   - ErrExpiredApiKey
 		 *   - ErrExpiredAuthToken
@@ -1498,6 +1623,7 @@ export namespace Partner {
 		 *   - ErrInvalidRoute
 		 *   - ErrMissingHeader
 		 *   - ErrMissingParameter
+		 *   - ErrOperationNotAllowed
 		 *   - ErrRateLimitExceeded
 		 *   - ErrUnauthorizedIPAddress
 		 */
@@ -1529,6 +1655,9 @@ export namespace Partner {
 		}
 
 		/** CreateDepositRequest creates a deposit request for a portfolio account.
+		 *
+		 * When the request is created, Halogen sends a
+		 * deposit_request_created webhook event.
 		 *
 		 * Errors:
 		 *   - ErrActionNotAllowedForAccountType
@@ -1575,7 +1704,12 @@ export namespace Partner {
 			return this.command<CreateDuitnowPaymentInput, CreateDuitnowPaymentOutput>("create_duitnow_payment", input, options)
 		}
 
-		/** CreateIndividualClient creates an individual client or returns the existing client if one already exists.
+		/** CreateIndividualClient creates an individual client or returns the existing
+		 * client if one already exists.
+		 *
+		 * Halogen sends a client webhook event reflecting the client's current status.
+		 * For a newly created pending client, Halogen sends a
+		 * client_created webhook event.
 		 *
 		 * Errors:
 		 *   - ErrAlreadyExists
@@ -1600,6 +1734,12 @@ export namespace Partner {
 
 		/** CreateRequestCancellation cancels a pending portfolio request.
 		 *
+		 * When the request is cancelled, Halogen sends a
+		 * deposit_request_cancelled webhook event
+		 * or
+		 * withdrawal_request_cancelled webhook event,
+		 * depending on the request type.
+		 *
 		 * Errors:
 		 *   - ErrExpiredApiKey
 		 *   - ErrExpiredAuthToken
@@ -1619,6 +1759,78 @@ export namespace Partner {
 		 */
 		async createRequestCancellation(input: CreateRequestCancellationInput, options?: RequestOptions) : Promise<CreateRequestCancellationOutput> {
 			return this.command<CreateRequestCancellationInput, CreateRequestCancellationOutput>("create_request_cancellation", input, options)
+		}
+
+		/** CreateSettlementBatch creates a batch for grouping client deposit requests
+		 * that will be paid together.
+		 *
+		 * Batch payments let you group multiple eligible client deposit requests and
+		 * make a single lump-sum payment instead of paying each request individually.
+		 *
+		 * To use batch payments:
+		 *
+		 * 1. Create a settlement batch (createSettlementBatch).
+		 * 2. Add requests to the settlement batch (createSettlementBatchRequests).
+		 * 3. Submit the settlement batch (updateSettlementBatchStatusSubmitted).
+		 *
+		 * You can make the bank transfer before or after completing these steps.
+		 * Halogen matches the payment to the submitted batch after the payment is received and verified.
+		 *
+		 * Batch payments are available where this payment flow has been agreed between
+		 * the partner and Halogen. Contact the Halogen team if you'd like to use this flow.
+		 *
+		 * Errors:
+		 *   - ErrExpiredApiKey
+		 *   - ErrExpiredAuthToken
+		 *   - ErrInternal
+		 *   - ErrInvalidAuthSignature
+		 *   - ErrInvalidAuthToken
+		 *   - ErrInvalidHeader
+		 *   - ErrInvalidParameter
+		 *   - ErrInvalidPublicKey
+		 *   - ErrInvalidRoute
+		 *   - ErrMissingHeader
+		 *   - ErrMissingParameter
+		 *   - ErrRateLimitExceeded
+		 *   - ErrUnauthorizedIPAddress
+		 */
+		async createSettlementBatch(input: CreateSettlementBatchInput, options?: RequestOptions) : Promise<CreateSettlementBatchOutput> {
+			return this.command<CreateSettlementBatchInput, CreateSettlementBatchOutput>("create_settlement_batch", input, options)
+		}
+
+		/** CreateSettlementBatchRequests adds client deposit requests to a settlement
+		 * batch.
+		 *
+		 * Before adding requests, create a settlement batch (createSettlementBatch).
+		 *
+		 * Add all client transaction requests that should be covered by the same
+		 * lump-sum payment. Only eligible pending deposit requests can be added, and
+		 * the amount provided for each request must match the corresponding request
+		 * amount.
+		 *
+		 * A maximum of 200 requests can be added per call. You can call this API
+		 * multiple times before submitting the batch.
+		 *
+		 * When you've finished adding requests, submit the settlement batch (updateSettlementBatchStatusSubmitted).
+		 *
+		 * Errors:
+		 *   - ErrExpiredApiKey
+		 *   - ErrExpiredAuthToken
+		 *   - ErrInternal
+		 *   - ErrInvalidAuthSignature
+		 *   - ErrInvalidAuthToken
+		 *   - ErrInvalidHeader
+		 *   - ErrInvalidParameter
+		 *   - ErrInvalidPublicKey
+		 *   - ErrInvalidRoute
+		 *   - ErrMissingHeader
+		 *   - ErrMissingParameter
+		 *   - ErrOperationNotAllowed
+		 *   - ErrRateLimitExceeded
+		 *   - ErrUnauthorizedIPAddress
+		 */
+		async createSettlementBatchRequests(input: CreateSettlementBatchRequestsInput, options?: RequestOptions) : Promise<CreateSettlementBatchRequestsOutput> {
+			return this.command<CreateSettlementBatchRequestsInput, CreateSettlementBatchRequestsOutput>("create_settlement_batch_requests", input, options)
 		}
 
 		/** CreateSuitabilityAssessment creates a suitability assessment for the client.
@@ -1644,6 +1856,9 @@ export namespace Partner {
 		}
 
 		/** CreateWithdrawalRequest creates a withdrawal request for a portfolio account.
+		 *
+		 * When the request is created, Halogen sends a
+		 * withdrawal_request_created webhook event.
 		 *
 		 * Errors:
 		 *   - ErrActionNotAllowedForAccountType
@@ -1950,7 +2165,11 @@ export namespace Partner {
 		/** SimulateCompleteDuitnowPayment simulates completing a DuitNow payment for a
 		 * deposit request.
 		 *
-		 * This API is available only in the spot environment and is not available in production.
+		 * This simulation sends the same
+		 * deposit_request_deposited webhook event
+		 * as the production payment flow.
+		 *
+		 * [info] This API is available only in the spot environment.
 		 *
 		 * Errors:
 		 *   - ErrExpiredApiKey
@@ -1964,6 +2183,7 @@ export namespace Partner {
 		 *   - ErrInvalidRoute
 		 *   - ErrMissingHeader
 		 *   - ErrMissingParameter
+		 *   - ErrOperationNotAllowed
 		 *   - ErrRateLimitExceeded
 		 *   - ErrUnauthorizedIPAddress
 		 */
@@ -1971,9 +2191,40 @@ export namespace Partner {
 			return this.command<SimulateCompleteDuitnowPaymentInput, SimulateCompleteDuitnowPaymentOutput>("simulate_complete_duitnow_payment", input, options)
 		}
 
-		/** Simulates creating an individual client after being onboarded using Halogen Wallet.
+		/** SimulateCreateBankTransfer simulates receiving a bank transfer for a
+		 * settlement batch.
 		 *
-		 * This API is available only in the spot environment and is not available in production.
+		 * In the spot environment, you can test the settlement batch payment flow
+		 * without sending a real bank transfer.
+		 *
+		 * The bank transfer amount must match the total amount of the settlement batch
+		 * or batches you want to pay. Use the returned reference ID to
+		 * confirm the payment against the submitted batch or batches (simulateUpdateSettlementBatchStatusApproved).
+		 *
+		 * [info] This API is available only in the spot environment.
+		 *
+		 * Errors:
+		 *   - ErrExpiredApiKey
+		 *   - ErrExpiredAuthToken
+		 *   - ErrInternal
+		 *   - ErrInvalidAuthSignature
+		 *   - ErrInvalidAuthToken
+		 *   - ErrInvalidHeader
+		 *   - ErrInvalidParameter
+		 *   - ErrInvalidPublicKey
+		 *   - ErrInvalidRoute
+		 *   - ErrMissingHeader
+		 *   - ErrRateLimitExceeded
+		 *   - ErrUnauthorizedIPAddress
+		 */
+		async simulateCreateBankTransfer(input: SimulateCreateBankTransferInput, options?: RequestOptions) : Promise<SimulateCreateBankTransferOutput> {
+			return this.command<SimulateCreateBankTransferInput, SimulateCreateBankTransferOutput>("simulate_create_bank_transfer", input, options)
+		}
+
+		/** SimulateCreateIndividualClientFromApplicant simulates creating an individual
+		 * client after onboarding with Halogen Wallet.
+		 *
+		 * [info] This API is available only in the spot environment.
 		 *
 		 * Errors:
 		 *   - ErrExpiredApiKey
@@ -1994,18 +2245,16 @@ export namespace Partner {
 			return this.command<SimulateCreateIndividualClientFromApplicantInput, SimulateCreateIndividualClientFromApplicantOutput>("simulate_create_individual_client_from_applicant", input, options)
 		}
 
-		/** SimulatePortfolioRebalance creates a portfolio rebalance plan, creates trades
-		 * from the generated plan instructions, books the trades, and marks the plan as
-		 * completed.
+		/** SimulatePortfolioRebalance simulates a portfolio rebalance.
 		 *
-		 * Deposit requests must first be approved and settled by calling:
+		 * Deposit requests must be approved and settled before running the rebalance:
 		 *
-		 * 1. SimulateUpdateClientRequestStatusApproved API.
-		 * 2. SimulateUpdateClientRequestStatusSettled API.
+		 * 1. Approve the deposit request (simulateUpdateClientRequestStatusApproved).
+		 * 2. Settle the deposit request (simulateUpdateClientRequestStatusSettled).
 		 *
-		 * Otherwise, the deposited funds will not be included in the portfolio rebalance.
+		 * Deposited funds that haven't been settled won't be included in the rebalance.
 		 *
-		 * This API is available only in the spot environment and is not available in production.
+		 * [info] This API is available only in the spot environment.
 		 *
 		 * Errors:
 		 *   - ErrExpiredApiKey
@@ -2027,7 +2276,11 @@ export namespace Partner {
 		/** SimulateUpdateClientBankAccountStatusVerificationFailed simulates marking a
 		 * client's bank account verification as failed.
 		 *
-		 * This API is available only in the spot environment and is not available in production.
+		 * This simulation sends the same
+		 * bank_account_verification_failed webhook event
+		 * as the production verification flow.
+		 *
+		 * [info] This API is available only in the spot environment.
 		 *
 		 * Errors:
 		 *   - ErrExpiredApiKey
@@ -2051,7 +2304,11 @@ export namespace Partner {
 		/** SimulateUpdateClientBankAccountStatusVerified simulates updating a client
 		 * bank account status to verified.
 		 *
-		 * This API is available only in the spot environment and is not available in production.
+		 * This simulation sends the same
+		 * bank_account_verified webhook event
+		 * as the production verification flow.
+		 *
+		 * [info] This API is available only in the spot environment.
 		 *
 		 * Errors:
 		 *   - ErrExpiredApiKey
@@ -2071,25 +2328,26 @@ export namespace Partner {
 		}
 
 		/** SimulateUpdateClientRequestStatusApproved simulates approving a client deposit
-		 * or withdrawal request by booking its associated fund income or expense
-		 * transaction.
+		 * or withdrawal request.
 		 *
-		 * To simulate a deposit request approved after the client is active:
+		 * To approve a deposit request:
 		 *
-		 * 1. Call CreateDepositRequest API.
-		 * 2. Call CreateDuitnowPayment API.
-		 * 3. Call SimulateCompleteDuitnowPayment API to complete the DuitNow payment.
-		 * 4. Call SimulateUpdateClientRequestStatusApproved API to approve the request.
+		 * 1. Create a deposit request (createDepositRequest).
+		 * 2. Create a DuitNow payment (createDuitnowPayment).
+		 * 3. Complete the DuitNow payment (simulateCompleteDuitnowPayment).
+		 * 4. Approve the request (simulateUpdateClientRequestStatusApproved).
 		 *
-		 * To simulate a withdrawal request approved after the client is active:
+		 * To approve a withdrawal request:
 		 *
-		 * 1. Call CreateWithdrawalRequest API.
-		 * 2. Call SimulateUpdateClientRequestStatusApproved API to approve the request.
+		 * 1. Create a withdrawal request (createWithdrawalRequest).
+		 * 2. Approve the request (simulateUpdateClientRequestStatusApproved).
 		 *
-		 * Only deposit and withdrawal transactions are supported. One transaction can
-		 * be processed per request.
+		 * For deposits, this simulation sends a deposit_request_completed webhook event.
+		 * For withdrawals, it sends a withdrawal_request_processing webhook event.
 		 *
-		 * This API is available only in the spot environment and is not available in production.
+		 * Only one request can be processed per call.
+		 *
+		 * [info] This API is available only in the spot environment.
 		 *
 		 * Errors:
 		 *   - ErrExpiredApiKey
@@ -2109,27 +2367,31 @@ export namespace Partner {
 		}
 
 		/** SimulateUpdateClientRequestStatusSettled simulates settling a client deposit
-		 * or withdrawal request by settling its associated fund income or expense
-		 * transaction.
+		 * or withdrawal request.
 		 *
-		 * To simulate a deposit request settled after the deposit is approved and client is active:
+		 * To settle a deposit request:
 		 *
-		 * 1. Call CreateDepositRequest API.
-		 * 2. Call CreateDuitnowPayment API.
-		 * 3. Call SimulateCompleteDuitnowPayment API to complete the DuitNow payment.
-		 * 4. Call SimulateUpdateClientRequestStatusApproved API to approve the request.
-		 * 5. Call SimulateUpdateClientRequestStatusSettled API to settle the request.
+		 * 1. Create a deposit request (createDepositRequest).
+		 * 2. Create a DuitNow payment (createDuitnowPayment).
+		 * 3. Complete the DuitNow payment (simulateCompleteDuitnowPayment).
+		 * 4. Approve the request (simulateUpdateClientRequestStatusApproved).
+		 * 5. Settle the request (simulateUpdateClientRequestStatusSettled).
 		 *
-		 * To simulate a withdrawal request settled after the withdrawal is approved and client is active:
+		 * To settle a withdrawal request:
 		 *
-		 * 1. Call CreateWithdrawalRequest API.
-		 * 2. Call SimulateUpdateClientRequestStatusApproved API to approve the request.
-		 * 3. Call SimulateUpdateClientRequestStatusSettled API to settle the request.
+		 * 1. Create a withdrawal request (createWithdrawalRequest).
+		 * 2. Approve the request (simulateUpdateClientRequestStatusApproved).
+		 * 3. Settle the request (simulateUpdateClientRequestStatusSettled).
 		 *
-		 * Only deposit and withdrawal transactions are supported. One transaction can
-		 * be processed per request.
+		 * This simulation sends a
+		 * deposit_request_completed webhook event
+		 * for deposits, or a
+		 * withdrawal_request_completed webhook event
+		 * for withdrawals.
 		 *
-		 * This API is available only in the spot environment and is not available in production.
+		 * Only one request can be processed per call.
+		 *
+		 * [info] This API is available only in the spot environment.
 		 *
 		 * Errors:
 		 *   - ErrExpiredApiKey
@@ -2148,9 +2410,14 @@ export namespace Partner {
 			return this.command<SimulateUpdateClientRequestStatusSettledInput, SimulateUpdateClientRequestStatusSettledOutput>("simulate_update_client_request_status_settled", input, options)
 		}
 
-		/** Simulates approving a client, and updating the client status to active.
+		/** SimulateUpdateClientStatusApproved simulates approving a client and updating
+		 * the client status to active.
 		 *
-		 * This API is available only in the spot environment and is not available in production.
+		 * This simulation sends the same
+		 * client_activated webhook event
+		 * as the production approval flow.
+		 *
+		 * [info] This API is available only in the spot environment.
 		 *
 		 * Errors:
 		 *   - ErrExpiredApiKey
@@ -2169,6 +2436,74 @@ export namespace Partner {
 		 */
 		async simulateUpdateClientStatusApproved(input: SimulateUpdateClientStatusApprovedInput, options?: RequestOptions) : Promise<SimulateUpdateClientStatusApprovedOutput> {
 			return this.command<SimulateUpdateClientStatusApprovedInput, SimulateUpdateClientStatusApprovedOutput>("simulate_update_client_status_approved", input, options)
+		}
+
+		/** SimulateUpdateSettlementBatchStatusApproved simulates confirming payment for
+		 * one or more submitted settlement batches.
+		 *
+		 * To confirm a settlement batch payment:
+		 *
+		 * 1. Submit the settlement batch (updateSettlementBatchStatusSubmitted).
+		 * 2. Simulate receiving the bank transfer (simulateCreateBankTransfer).
+		 * 3. Confirm the payment (simulateUpdateSettlementBatchStatusApproved).
+		 *
+		 * Confirming the payment associates the bank transaction with the selected
+		 * batches and updates the statuses of the client deposit requests included in
+		 * them.
+		 *
+		 * A deposit_request_deposited webhook event
+		 * is sent for each affected deposit request, matching the production payment
+		 * flow.
+		 *
+		 * [info] This API is available only in the spot environment.
+		 *
+		 * Errors:
+		 *   - ErrExpiredApiKey
+		 *   - ErrExpiredAuthToken
+		 *   - ErrInternal
+		 *   - ErrInvalidAuthSignature
+		 *   - ErrInvalidAuthToken
+		 *   - ErrInvalidHeader
+		 *   - ErrInvalidPublicKey
+		 *   - ErrInvalidRoute
+		 *   - ErrMissingHeader
+		 *   - ErrMissingParameter
+		 *   - ErrRateLimitExceeded
+		 *   - ErrUnauthorizedIPAddress
+		 */
+		async simulateUpdateSettlementBatchStatusApproved(input: SimulateUpdateSettlementBatchStatusApprovedInput, options?: RequestOptions) : Promise<SimulateUpdateSettlementBatchStatusApprovedOutput> {
+			return this.command<SimulateUpdateSettlementBatchStatusApprovedInput, SimulateUpdateSettlementBatchStatusApprovedOutput>("simulate_update_settlement_batch_status_approved", input, options)
+		}
+
+		/** UpdateSettlementBatchStatusSubmitted submits a settlement batch for payment
+		 * review.
+		 *
+		 * Before submitting the batch, make sure you've
+		 * added all intended client deposit requests (createSettlementBatchRequests).
+		 *
+		 * Submitting the batch finalizes its requests so that the lump-sum payment can
+		 * be matched against the batch.
+		 *
+		 * After the payment is received and verified, the statuses of the client
+		 * deposit requests included in the batch are updated accordingly.
+		 *
+		 * Errors:
+		 *   - ErrExpiredApiKey
+		 *   - ErrExpiredAuthToken
+		 *   - ErrInternal
+		 *   - ErrInvalidAuthSignature
+		 *   - ErrInvalidAuthToken
+		 *   - ErrInvalidHeader
+		 *   - ErrInvalidPublicKey
+		 *   - ErrInvalidRoute
+		 *   - ErrMissingHeader
+		 *   - ErrMissingParameter
+		 *   - ErrOperationNotAllowed
+		 *   - ErrRateLimitExceeded
+		 *   - ErrUnauthorizedIPAddress
+		 */
+		async updateSettlementBatchStatusSubmitted(input: UpdateSettlementBatchStatusSubmittedInput, options?: RequestOptions) : Promise<UpdateSettlementBatchStatusSubmittedOutput> {
+			return this.command<UpdateSettlementBatchStatusSubmittedInput, UpdateSettlementBatchStatusSubmittedOutput>("update_settlement_batch_status_submitted", input, options)
 		}
 
 	}
