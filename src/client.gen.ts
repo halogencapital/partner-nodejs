@@ -2644,8 +2644,6 @@ export namespace Partner {
 		 * Submitting the batch finalizes its requests so that the lump-sum payment can
 		 * be matched against the batch.
 		 *
-		 * After submitting the batch, you can simulate Halogen approving it (simulateUpdateSettlementBatchStatusApproved).
-		 *
 		 * After the payment is received and verified, the statuses of the client
 		 * deposit requests included in the batch are updated accordingly.
 		 *
