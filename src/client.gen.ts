@@ -1452,6 +1452,24 @@ export namespace Partner {
 	export interface SimulatePortfolioRebalanceOutput {
 	}
 
+	/** SimulateSettlementBatchWithdrawalInput is the input for simulating Halogen
+	 * completing a settlement batch for withdrawal requests.
+	 */
+	export interface SimulateSettlementBatchWithdrawalInput {
+		/** Requests is the list of withdrawal requests to include in the settlement batch.
+		 * A maximum of 200 requests can be included per batch.
+		 *
+		 * Required.
+		 */
+		requests: CreateSettlementBatchRequest[]
+	}
+
+	/** SimulateSettlementBatchWithdrawalOutput is the response after successfully
+	 * simulating the completion of a withdrawal settlement batch.
+	 */
+	export interface SimulateSettlementBatchWithdrawalOutput {
+	}
+
 	/** SimulateUpdateClientBankAccountStatusVerificationFailedInput is the input for
 	 * simulating a failed client bank account verification.
 	 */
@@ -1712,6 +1730,7 @@ export namespace Partner {
 		 * webhook events for the verification result.
 		 *
 		 * Errors:
+		 *   - ErrAlreadyExists
 		 *   - ErrExpiredApiKey
 		 *   - ErrExpiredAuthToken
 		 *   - ErrInsufficientAccess
@@ -2431,6 +2450,41 @@ export namespace Partner {
 		 */
 		async simulatePortfolioRebalance(input: SimulatePortfolioRebalanceInput, options?: RequestOptions) : Promise<SimulatePortfolioRebalanceOutput> {
 			return this.command<SimulatePortfolioRebalanceInput, SimulatePortfolioRebalanceOutput>("simulate_portfolio_rebalance", input, options)
+		}
+
+		/** SimulateSettlementBatchWithdrawal simulates Halogen completing a
+		 * settlement batch for withdrawal requests.
+		 *
+		 * To complete a batch:
+		 *
+		 *  1. Create the withdrawal requests (createWithdrawalRequest).
+		 *  2. Provide the withdrawal requests to include in the batch.
+		 *  3. Halogen processes the batch and marks the included withdrawal requests as completed.
+		 *
+		 * When you simulate approval of the batch, all included withdrawal requests are marked as completed, and one
+		 * settlement_batch_withdrawal_completed webhook event
+		 * is sent for the batch.
+		 *
+		 * [info] This API is available only in the spot environment.
+		 *
+		 * Errors:
+		 *   - ErrExpiredApiKey
+		 *   - ErrExpiredAuthToken
+		 *   - ErrInternal
+		 *   - ErrInvalidAuthSignature
+		 *   - ErrInvalidAuthToken
+		 *   - ErrInvalidHeader
+		 *   - ErrInvalidParameter
+		 *   - ErrInvalidPublicKey
+		 *   - ErrInvalidRoute
+		 *   - ErrMissingHeader
+		 *   - ErrMissingParameter
+		 *   - ErrOperationNotAllowed
+		 *   - ErrRateLimitExceeded
+		 *   - ErrUnauthorizedIPAddress
+		 */
+		async simulateSettlementBatchWithdrawal(input: SimulateSettlementBatchWithdrawalInput, options?: RequestOptions) : Promise<SimulateSettlementBatchWithdrawalOutput> {
+			return this.command<SimulateSettlementBatchWithdrawalInput, SimulateSettlementBatchWithdrawalOutput>("simulate_settlement_batch_withdrawal", input, options)
 		}
 
 		/** SimulateUpdateClientBankAccountStatusVerificationFailed simulates marking a
