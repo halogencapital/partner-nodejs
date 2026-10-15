@@ -924,6 +924,17 @@ export namespace Partner {
 		portfolio: Portfolio
 	}
 
+	/** GetSettlementBatchInput represents the input for retrieving a settlement batch. */
+	export interface GetSettlementBatchInput {
+		/** BatchID is the ID of the settlement batch to retrieve. */
+		batchId: string
+	}
+
+	/** GetSettlementBatchOutput represents the output of retrieving a settlement batch. */
+	export interface GetSettlementBatchOutput {
+		/** Batch is the requested settlement batch. */
+		batch: SettlementBatch
+	}
 
 	/** GetWebhookEventInput is the input for retrieving a webhook event. */
 	export interface GetWebhookEventInput {
@@ -1449,6 +1460,10 @@ export namespace Partner {
 		type: string
 		/** BankTransactionID is the ID of the bank transaction associated with the settlement batch. */
 		bankTransactionId?: string
+		/** TotalAmount is the total amount of all requests included in the settlement batch. */
+		totalAmount: number
+		/** TotalRequests is the total number of requests included in the settlement batch. */
+		totalRequests: number
 		/** CreatedAt is the time the settlement batch was created. */
 		createdAt: string
 		/** CreatedBy is the ID of the user or partner that created the settlement batch. */
@@ -2168,6 +2183,27 @@ export namespace Partner {
 		 */
 		async getPortfolio(input: GetPortfolioInput) : Promise<GetPortfolioOutput> {
 			return this.query<GetPortfolioInput, GetPortfolioOutput>("get_portfolio", input)
+		}
+
+		/** GetSettlementBatch retrieves a settlement batch by its ID.
+		 *
+		 * Errors:
+		 *   - ErrExpiredApiKey
+		 *   - ErrExpiredAuthToken
+		 *   - ErrInternal
+		 *   - ErrInvalidAuthSignature
+		 *   - ErrInvalidAuthToken
+		 *   - ErrInvalidHeader
+		 *   - ErrInvalidParameter
+		 *   - ErrInvalidPublicKey
+		 *   - ErrInvalidRoute
+		 *   - ErrMissingHeader
+		 *   - ErrMissingParameter
+		 *   - ErrRateLimitExceeded
+		 *   - ErrUnauthorizedIPAddress
+		 */
+		async getSettlementBatch(input: GetSettlementBatchInput) : Promise<GetSettlementBatchOutput> {
+			return this.query<GetSettlementBatchInput, GetSettlementBatchOutput>("get_settlement_batch", input)
 		}
 
 		/** ListClientAccountPerformance lists historical performance data for one or more client accounts over a specified timeframe.
