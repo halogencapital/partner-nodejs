@@ -1588,6 +1588,8 @@ export namespace Partner {
 	 * simulating the completion of a withdrawal settlement batch.
 	 */
 	export interface SimulateSettlementBatchWithdrawalOutput {
+		/** BatchID is the ID of the newly created settlement batch. */
+		batchId: string
 	}
 
 	/** SimulateUpdateClientBankAccountStatusVerificationFailedInput is the input for
@@ -1648,12 +1650,11 @@ export namespace Partner {
 	 * a client deposit or withdrawal request being approved.
 	 */
 	export interface SimulateUpdateClientRequestStatusApprovedInput {
-		/** RequestID is the ID of the deposit or withdrawal request to approve.
-		 * Only one request can be processed per call.
+		/** RequestIDs are the IDs of the deposit or withdrawal requests to approve.
 		 *
 		 * Required.
 		 */
-		requestId: string
+		requestIDs: string[]
 	}
 
 	/** SimulateUpdateClientRequestStatusApprovedOutput is the response after
@@ -2749,11 +2750,7 @@ export namespace Partner {
 		 *
 		 * 1. Create a withdrawal request (createWithdrawalRequest).
 		 * 2. Approve the request (simulateUpdateClientRequestStatusApproved).
-		 *
-		 * For deposits, this simulation sends a deposit_request_completed webhook event.
-		 * For withdrawals, it sends a withdrawal_request_processing webhook event.
-		 *
-		 * Only one request can be processed per call.
+		 * 3. Receives withdrawal_request_processing webhook event.
 		 *
 		 * [info] This API is available only in the spot environment.
 		 *
@@ -2802,6 +2799,7 @@ export namespace Partner {
 		 * [info] This API is available only in the spot environment.
 		 *
 		 * Errors:
+		 *   - ErrActionNotAllowedForAccountType
 		 *   - ErrExpiredApiKey
 		 *   - ErrExpiredAuthToken
 		 *   - ErrInternal
@@ -2811,6 +2809,7 @@ export namespace Partner {
 		 *   - ErrInvalidPublicKey
 		 *   - ErrInvalidRoute
 		 *   - ErrMissingHeader
+		 *   - ErrOperationNotAllowed
 		 *   - ErrRateLimitExceeded
 		 *   - ErrUnauthorizedIPAddress
 		 */
@@ -2859,9 +2858,9 @@ export namespace Partner {
 		 * batches and updates the statuses of the client deposit requests included in
 		 * them.
 		 *
-		 * A deposit_request_deposited webhook event
-		 * is sent for each affected deposit request, matching the production payment
-		 * flow.
+		 * A settlement_batch_deposit_completed webhook event
+		 * is sent once per settlement batch, containing all deposit requests included
+		 * in that batch, matching the production payment flow.
 		 *
 		 * [info] This API is available only in the spot environment.
 		 *
