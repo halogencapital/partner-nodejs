@@ -906,6 +906,22 @@ export namespace Partner {
 		portfolio: Portfolio
 	}
 
+
+	/** GetWebhookEventInput is the input for retrieving a webhook event. */
+	export interface GetWebhookEventInput {
+		/** NotificationID is the unique identifier of the webhook event.
+		 *
+		 * Required.
+		 */
+		notificationId: string
+	}
+
+	/** GetWebhookEventOutput is the response containing the webhook event. */
+	export interface GetWebhookEventOutput {
+		/** The webhook event associated with the notification. */
+		event: PartnerWebhookEvent
+	}
+
 	/** ListClientAccountPerformanceInput is the input for listing account performance. */
 	export interface ListClientAccountPerformanceInput {
 		/** ClientID is the ID of the client whose account performance is being listed.
@@ -1222,12 +1238,83 @@ export namespace Partner {
 		batches: SettlementBatch[]
 	}
 
+	/** ListWebhookEventsInput is the input for listing webhook events. */
+	export interface ListWebhookEventsInput {
+		/** NotificationTypes filters events by one or more notification types.
+		 *
+		 * Optional.
+		 */
+		notificationTypes: string[]
+		/** Limit is the maximum number of events to return.
+		 * Defaults to 20, maximum 100.
+		 *
+		 * Optional.
+		 */
+		limit: number
+		/** Cursor is the pagination cursor returned by the previous request.
+		 * Pass nextCursor to retrieve the next page of events.
+		 *
+		 * Optional.
+		 */
+		cursor: string
+		/** From filters events created at or after the specified date and time.
+		 * Must be in RFC 3339 format with second-level precision.
+		 *
+		 * Optional.
+		 */
+		from: string
+		/** To filters events created at or before the specified date and time.
+		 * Must be in RFC 3339 format with second-level precision.
+		 * Includes all events created within the specified second.
+		 *
+		 * Optional.
+		 */
+		to: string
+	}
+
+	/** ListWebhookEventsOutput is the response containing a list of webhook events. */
+	export interface ListWebhookEventsOutput {
+		/** Events contains the webhook events, ordered from newest to oldest. */
+		events: PartnerWebhookEvent[]
+		/** NextCursor is the pagination cursor for retrieving the next page.
+		 * Pass this value as cursor in the next request, keeping the same filters.
+		 * Empty if there are no more events.
+		 */
+		nextCursor: string
+	}
+
 	/** NatureOfBusiness represents an available nature of business option. */
 	export interface NatureOfBusiness {
 		/** ID is the ID of the nature of business. */
 		id: string
 		/** Label is the display label of the nature of business. */
 		label: string
+	}
+
+	/** PartnerWebhookDeliveryAttempt represents a webhook delivery attempt. */
+	export interface PartnerWebhookDeliveryAttempt {
+		/** The time at which the delivery was attempted, in RFC 3339 Nano format. */
+		attemptedAt: string
+		/** The HTTP status code returned by the webhook endpoint. */
+		statusCode: number
+		/** The response body returned by the webhook endpoint. */
+		responseBody: string
+		/** Whether this delivery attempt was manually requested. */
+		manualResend: boolean
+	}
+
+	/** PartnerWebhookEvent represents a webhook notification and its delivery history. */
+	export interface PartnerWebhookEvent {
+		/** The unique identifier of the notification. */
+		notificationId: string
+		/** The type of webhook notification. */
+		notificationType: string
+		/** The time at which the notification was created. */
+		createdAt: string
+		/** The event-specific payload associated with the notification. */
+		data: Record<string, any>
+		/** The delivery attempts made for the webhook notification. */
+		deliveryAttempts: PartnerWebhookDeliveryAttempt[]
 	}
 
 	/** PermissionOption represents a permission available for a client account. */
@@ -2339,6 +2426,36 @@ export namespace Partner {
 		 */
 		async listSettlementBatches(input: ListSettlementBatchesInput) : Promise<ListSettlementBatchesOutput> {
 			return this.query<ListSettlementBatchesInput, ListSettlementBatchesOutput>("list_settlement_batches", input)
+		}
+
+		/** ListWebhookEvents returns webhook events associated with your partner account.
+		 *
+		 * Events are returned in reverse chronological order, with the most recent
+		 * events appearing first.
+		 *
+		 * You can filter events by notification type and creation date range.
+		 * To retrieve additional events, pass the returned nextCursor as cursor
+		 * in the next request while keeping the same filters.
+		 *
+		 * Errors:
+		 *   - ErrExpiredApiKey
+		 *   - ErrExpiredAuthToken
+		 *   - ErrInsufficientAccess
+		 *   - ErrInternal
+		 *   - ErrInvalidAuthSignature
+		 *   - ErrInvalidAuthToken
+		 *   - ErrInvalidHeader
+		 *   - ErrInvalidParameter
+		 *   - ErrInvalidPublicKey
+		 *   - ErrInvalidRoute
+		 *   - ErrMissingHeader
+		 *   - ErrMissingParameter
+		 *   - ErrRateLimitExceeded
+		 *   - ErrUnauthorizedIPAddress
+		 *   - InvalidDateRange
+		 */
+		async listWebhookEvents(input: ListWebhookEventsInput) : Promise<ListWebhookEventsOutput> {
+			return this.query<ListWebhookEventsInput, ListWebhookEventsOutput>("list_webhook_events", input)
 		}
 
 		/** SimulateCompleteDuitnowPayment simulates completing a DuitNow payment for a
