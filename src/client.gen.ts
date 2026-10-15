@@ -886,6 +886,40 @@ export namespace Partner {
 		performance: PortfolioAllocationPerformance[]
 	}
 
+	/** GetClientAccountStatementInput is the input for retrieving a client account statement. */
+	export interface GetClientAccountStatementInput {
+		/** ClientID is the ID of the client who owns the account.
+		 *
+		 * Required.
+		 */
+		clientId: string
+		/** AccountID is the ID of the account.
+		 *
+		 * Required.
+		 */
+		accountId: string
+		/** Month is the statement month in mm format, for example "01" for January or "12" for December.
+		 *
+		 * Required.
+		 */
+		month: string
+		/** Year is the statement year in yyyy format, for example "2026".
+		 *
+		 * Required.
+		 */
+		year: string
+	}
+
+	/** GetClientAccountStatementOutput contains the generated client account statement. */
+	export interface GetClientAccountStatementOutput {
+		/** Filename is the generated PDF statement filename. */
+		filename: string
+		/** Bytes contains the complete PDF file contents.
+		 * Decode the value from Base64 to obtain the original PDF bytes.
+		 */
+		bytes: string
+	}
+
 	/** GetPortfolioInput is the input for retrieving a portfolio. */
 	export interface GetPortfolioInput {
 		/** ID is the ID of the portfolio template.
@@ -2105,6 +2139,29 @@ export namespace Partner {
 		 */
 		async getClientAccountPortfolioAllocationPerformance(input: GetClientAccountPortfolioAllocationPerformanceInput) : Promise<GetClientAccountPortfolioAllocationPerformanceOutput> {
 			return this.query<GetClientAccountPortfolioAllocationPerformanceInput, GetClientAccountPortfolioAllocationPerformanceOutput>("get_client_account_portfolio_allocation_performance", input)
+		}
+
+		/** GetClientAccountStatement retrieves the PDF account statement for the specified month and year.
+		 *
+		 * Errors:
+		 *   - ErrExpiredApiKey
+		 *   - ErrExpiredAuthToken
+		 *   - ErrInsufficientAccess
+		 *   - ErrInternal
+		 *   - ErrInvalidAuthSignature
+		 *   - ErrInvalidAuthToken
+		 *   - ErrInvalidHeader
+		 *   - ErrInvalidParameter
+		 *   - ErrInvalidPublicKey
+		 *   - ErrInvalidRoute
+		 *   - ErrMissingHeader
+		 *   - ErrMissingParameter
+		 *   - ErrRateLimitExceeded
+		 *   - ErrUnauthorizedIPAddress
+		 *   - InvalidDateRange
+		 */
+		async getClientAccountStatement(input: GetClientAccountStatementInput) : Promise<GetClientAccountStatementOutput> {
+			return this.query<GetClientAccountStatementInput, GetClientAccountStatementOutput>("get_client_account_statement", input)
 		}
 
 		/** GetPortfolio retrieves a portfolio by ID for a given MR client and client.
