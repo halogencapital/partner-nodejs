@@ -666,22 +666,6 @@ export namespace Partner {
 		 * [conditional] Required only if ApplicantInRelationWithPep is "yes".
 		 */
 		relatedPepFinancialRelationship?: string
-		/** InvestorCategory specifies the client's investor category.
-		 *
-		 * Required.
-		 */
-		investorCategory: string
-		/** HighNetWorthInvestorCategory specifies the client's high-net-worth
-		 * investor classification.
-		 *
-		 * [conditional] Required only if InvestorCategory is "highNetworthInvestor".
-		 */
-		highNetWorthInvestorCategory?: string
-		/** AccreditedLicenseNumber is the client's accredited investor licence number.
-		 *
-		 * [conditional] Required only when applicable to the selected investor category.
-		 */
-		accreditedLicenseNumber?: string
 		/** USPerson specifies whether the client is a US person.
 		 *
 		 * Required.
