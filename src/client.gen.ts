@@ -2207,6 +2207,31 @@ export namespace Partner {
 			return this.query<GetSettlementBatchInput, GetSettlementBatchOutput>("get_settlement_batch", input)
 		}
 
+		/** GetWebhookEvent retrieves the details of an existing webhook event.
+		 *
+		 * You can retrieve events even if delivery to your webhook endpoint failed.
+		 * Only events associated with your partner account can be retrieved.
+		 *
+		 * Errors:
+		 *   - ErrExpiredApiKey
+		 *   - ErrExpiredAuthToken
+		 *   - ErrInsufficientAccess
+		 *   - ErrInternal
+		 *   - ErrInvalidAuthSignature
+		 *   - ErrInvalidAuthToken
+		 *   - ErrInvalidHeader
+		 *   - ErrInvalidParameter
+		 *   - ErrInvalidPublicKey
+		 *   - ErrInvalidRoute
+		 *   - ErrMissingHeader
+		 *   - ErrMissingParameter
+		 *   - ErrRateLimitExceeded
+		 *   - ErrUnauthorizedIPAddress
+		 */
+		async getWebhookEvent(input: GetWebhookEventInput) : Promise<GetWebhookEventOutput> {
+			return this.query<GetWebhookEventInput, GetWebhookEventOutput>("get_webhook_event", input)
+		}
+
 		/** ListClientAccountPerformance lists historical performance data for one or more client accounts over a specified timeframe.
 		 *
 		 * Errors:
