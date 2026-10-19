@@ -145,6 +145,16 @@ export namespace Partner {
 		externalURl: string
 	}
 
+	/** Bank represents a bank available for selection. */
+	export interface Bank {
+		/** Name is the name of the bank. */
+		name: string
+		/** Bic is the bank's Business Identifier Code (BIC). */
+		bic: string
+		/** ImageUrl is the URL of the bank's logo. */
+		imageUrl: string
+	}
+
 	/** BankAccount represents a client's registered bank account. */
 	export interface BankAccount {
 		/** ClientAccountID is the ID of the client account associated with the bank account. */
@@ -949,6 +959,16 @@ export namespace Partner {
 	export interface GetWebhookEventOutput {
 		/** The webhook event associated with the notification. */
 		event: PartnerWebhookEvent
+	}
+
+	/** ListBanksInput is the input for listing available banks. */
+	export interface ListBanksInput {
+	}
+
+	/** ListBanksOutput contains the list of available banks. */
+	export interface ListBanksOutput {
+		/** Banks is the list of available banks. */
+		banks: Bank[]
 	}
 
 	/** ListClientAccountPerformanceInput is the input for listing account performance. */
@@ -2230,6 +2250,27 @@ export namespace Partner {
 		 */
 		async getWebhookEvent(input: GetWebhookEventInput) : Promise<GetWebhookEventOutput> {
 			return this.query<GetWebhookEventInput, GetWebhookEventOutput>("get_webhook_event", input)
+		}
+
+		/** ListBanks lists available banks.
+		 *
+		 * Errors:
+		 *   - ErrExpiredApiKey
+		 *   - ErrExpiredAuthToken
+		 *   - ErrInsufficientAccess
+		 *   - ErrInternal
+		 *   - ErrInvalidAuthSignature
+		 *   - ErrInvalidAuthToken
+		 *   - ErrInvalidHeader
+		 *   - ErrInvalidPublicKey
+		 *   - ErrInvalidRoute
+		 *   - ErrMissingHeader
+		 *   - ErrMissingParameter
+		 *   - ErrRateLimitExceeded
+		 *   - ErrUnauthorizedIPAddress
+		 */
+		async listBanks(input: ListBanksInput) : Promise<ListBanksOutput> {
+			return this.query<ListBanksInput, ListBanksOutput>("list_banks", input)
 		}
 
 		/** ListClientAccountPerformance lists historical performance data for one or more client accounts over a specified timeframe.
