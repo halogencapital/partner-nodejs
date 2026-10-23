@@ -1718,6 +1718,28 @@ export namespace Partner {
 	export interface SimulateUpdateClientStatusApprovedOutput {
 	}
 
+	/** SimulateUpdateClientStatusInput contains the information required
+	 * to simulate updating a client's status.
+	 */
+	export interface SimulateUpdateClientStatusInput {
+		/** ClientID is the ID of the client whose status will be updated.
+		 *
+		 * Required.
+		 */
+		clientId: string
+		/** Status is the new status to assign to the client.
+		 *
+		 * Required.
+		 */
+		status: string
+	}
+
+	/** SimulateUpdateClientStatusOutput is the response after
+	 * successfully simulating a client status update.
+	 */
+	export interface SimulateUpdateClientStatusOutput {
+	}
+
 	/** SimulateUpdateSettlementBatchStatusApprovedInput is the input for simulating
 	 * the approval of settlement batches.
 	 */
@@ -2830,6 +2852,7 @@ export namespace Partner {
 		 *   - ErrInvalidPublicKey
 		 *   - ErrInvalidRoute
 		 *   - ErrMissingHeader
+		 *   - ErrOperationNotAllowed
 		 *   - ErrRateLimitExceeded
 		 *   - ErrUnauthorizedIPAddress
 		 */
@@ -2883,6 +2906,33 @@ export namespace Partner {
 			return this.command<SimulateUpdateClientRequestStatusSettledInput, SimulateUpdateClientRequestStatusSettledOutput>("simulate_update_client_request_status_settled", input, options)
 		}
 
+		/** SimulateUpdateClientStatus simulates updating a client's status
+		 * to the specified value.
+		 *
+		 * This simulation allows testing client status transitions without
+		 * going through the production approval process.
+		 *
+		 * [info] This API is available only in the spot environment.
+		 *
+		 * Errors:
+		 *   - ErrExpiredApiKey
+		 *   - ErrExpiredAuthToken
+		 *   - ErrInternal
+		 *   - ErrInvalidAuthSignature
+		 *   - ErrInvalidAuthToken
+		 *   - ErrInvalidHeader
+		 *   - ErrInvalidParameter
+		 *   - ErrInvalidPublicKey
+		 *   - ErrInvalidRoute
+		 *   - ErrMissingHeader
+		 *   - ErrMissingParameter
+		 *   - ErrRateLimitExceeded
+		 *   - ErrUnauthorizedIPAddress
+		 */
+		async simulateUpdateClientStatus(input: SimulateUpdateClientStatusInput, options?: RequestOptions) : Promise<SimulateUpdateClientStatusOutput> {
+			return this.command<SimulateUpdateClientStatusInput, SimulateUpdateClientStatusOutput>("simulate_update_client_status", input, options)
+		}
+
 		/** SimulateUpdateClientStatusApproved simulates approving a client and updating
 		 * the client status to active.
 		 *
@@ -2891,6 +2941,8 @@ export namespace Partner {
 		 * as the production approval flow.
 		 *
 		 * [info] This API is available only in the spot environment.
+		 *
+		 * Deprecated: Use SimulateUpdateClientStatus instead.
 		 *
 		 * Errors:
 		 *   - ErrExpiredApiKey
