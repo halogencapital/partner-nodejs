@@ -68,11 +68,12 @@ export default class Signer {
         return signingString + "." + signature
     }
     
-    protected async query<Input, Output>(name: string, input: Input): Promise<Output> {
+    protected async query<Input, Output>(name: string, input: Input, options?: Partner.QueryOptions): Promise<Output> {
         const ep = this.endpoint + "/query"
         const body = JSON.stringify({
             name,
-            payload: input
+            payload: input,
+            consistentRead: options?.consistentRead ?? false
         })
         const token = this.sign("/query", body)
         const maxRetryCount = 5
