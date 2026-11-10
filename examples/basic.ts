@@ -36,7 +36,6 @@ try {
         otherNatureOfBusiness: "other nature",
         annualIncome: "rm40torm119k",
         sourceOfWealth: ["employment"],
-        investorCategory: "highNetworthInvestor",
         applicantIsPep: "no",
         permanentAddressLine1: "permanentAddressLine1",
         permanentAddressPostcode: "permanentAddressPostcode",
@@ -82,6 +81,8 @@ try {
     const banksOutput = await client.listDuitnowBanks({
         clientId,
         accountId,
+    }, {
+        consistentRead: true,
     })
     const duitnowBankCode = banksOutput.banks[0].code
     
@@ -90,6 +91,8 @@ try {
     const consentsOutput = await client.listDepositConsents({
         clientId,
         accountId,
+    }, {
+        consistentRead: true,
     })
     console.dir(consentsOutput, { depth: null })
     
@@ -115,6 +118,8 @@ try {
         clientId,
         accountId,
         pollForCompletedPayment: false,
+    }, {
+        consistentRead: true,
     })
     console.dir(requestsOutput, { depth: null })
 

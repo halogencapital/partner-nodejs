@@ -1818,6 +1818,15 @@ export namespace Partner {
 		idempotencyKey?: string
 	}
 
+	export interface QueryOptions {
+		/**
+		* Enables strongly consistent reads.
+		*
+		* Defaults to false.
+		*/
+		consistentRead?: boolean
+	}
+
 	export interface HttpClientOptions {
 		/**
 		 * The keyId provided by the Partner portal when the API key is created.
@@ -2179,8 +2188,8 @@ export namespace Partner {
 		 *   - ErrRateLimitExceeded
 		 *   - ErrUnauthorizedIPAddress
 		 */
-		async getClientAccountPortfolioAllocationPerformance(input: GetClientAccountPortfolioAllocationPerformanceInput) : Promise<GetClientAccountPortfolioAllocationPerformanceOutput> {
-			return this.query<GetClientAccountPortfolioAllocationPerformanceInput, GetClientAccountPortfolioAllocationPerformanceOutput>("get_client_account_portfolio_allocation_performance", input)
+		async getClientAccountPortfolioAllocationPerformance(input: GetClientAccountPortfolioAllocationPerformanceInput, options?: QueryOptions) : Promise<GetClientAccountPortfolioAllocationPerformanceOutput> {
+			return this.query<GetClientAccountPortfolioAllocationPerformanceInput, GetClientAccountPortfolioAllocationPerformanceOutput>("get_client_account_portfolio_allocation_performance", input, options)
 		}
 
 		/** GetClientAccountStatement retrieves the PDF account statement for the specified month and year.
@@ -2202,8 +2211,8 @@ export namespace Partner {
 		 *   - ErrUnauthorizedIPAddress
 		 *   - InvalidDateRange
 		 */
-		async getClientAccountStatement(input: GetClientAccountStatementInput) : Promise<GetClientAccountStatementOutput> {
-			return this.query<GetClientAccountStatementInput, GetClientAccountStatementOutput>("get_client_account_statement", input)
+		async getClientAccountStatement(input: GetClientAccountStatementInput, options?: QueryOptions) : Promise<GetClientAccountStatementOutput> {
+			return this.query<GetClientAccountStatementInput, GetClientAccountStatementOutput>("get_client_account_statement", input, options)
 		}
 
 		/** GetPortfolio retrieves a portfolio by ID for a given MR client and client.
@@ -2224,8 +2233,8 @@ export namespace Partner {
 		 *   - ErrRateLimitExceeded
 		 *   - ErrUnauthorizedIPAddress
 		 */
-		async getPortfolio(input: GetPortfolioInput) : Promise<GetPortfolioOutput> {
-			return this.query<GetPortfolioInput, GetPortfolioOutput>("get_portfolio", input)
+		async getPortfolio(input: GetPortfolioInput, options?: QueryOptions) : Promise<GetPortfolioOutput> {
+			return this.query<GetPortfolioInput, GetPortfolioOutput>("get_portfolio", input, options)
 		}
 
 		/** GetSettlementBatch retrieves a settlement batch by its ID.
@@ -2245,8 +2254,8 @@ export namespace Partner {
 		 *   - ErrRateLimitExceeded
 		 *   - ErrUnauthorizedIPAddress
 		 */
-		async getSettlementBatch(input: GetSettlementBatchInput) : Promise<GetSettlementBatchOutput> {
-			return this.query<GetSettlementBatchInput, GetSettlementBatchOutput>("get_settlement_batch", input)
+		async getSettlementBatch(input: GetSettlementBatchInput, options?: QueryOptions) : Promise<GetSettlementBatchOutput> {
+			return this.query<GetSettlementBatchInput, GetSettlementBatchOutput>("get_settlement_batch", input, options)
 		}
 
 		/** GetWebhookEvent retrieves the details of an existing webhook event.
@@ -2270,8 +2279,8 @@ export namespace Partner {
 		 *   - ErrRateLimitExceeded
 		 *   - ErrUnauthorizedIPAddress
 		 */
-		async getWebhookEvent(input: GetWebhookEventInput) : Promise<GetWebhookEventOutput> {
-			return this.query<GetWebhookEventInput, GetWebhookEventOutput>("get_webhook_event", input)
+		async getWebhookEvent(input: GetWebhookEventInput, options?: QueryOptions) : Promise<GetWebhookEventOutput> {
+			return this.query<GetWebhookEventInput, GetWebhookEventOutput>("get_webhook_event", input, options)
 		}
 
 		/** ListBanks lists available banks.
@@ -2291,8 +2300,8 @@ export namespace Partner {
 		 *   - ErrRateLimitExceeded
 		 *   - ErrUnauthorizedIPAddress
 		 */
-		async listBanks(input: ListBanksInput) : Promise<ListBanksOutput> {
-			return this.query<ListBanksInput, ListBanksOutput>("list_banks", input)
+		async listBanks(input: ListBanksInput, options?: QueryOptions) : Promise<ListBanksOutput> {
+			return this.query<ListBanksInput, ListBanksOutput>("list_banks", input, options)
 		}
 
 		/** ListClientAccountPerformance lists historical performance data for one or more client accounts over a specified timeframe.
@@ -2313,8 +2322,8 @@ export namespace Partner {
 		 *   - ErrRateLimitExceeded
 		 *   - ErrUnauthorizedIPAddress
 		 */
-		async listClientAccountPerformance(input: ListClientAccountPerformanceInput) : Promise<ListClientAccountPerformanceOutput> {
-			return this.query<ListClientAccountPerformanceInput, ListClientAccountPerformanceOutput>("list_client_account_performance", input)
+		async listClientAccountPerformance(input: ListClientAccountPerformanceInput, options?: QueryOptions) : Promise<ListClientAccountPerformanceOutput> {
+			return this.query<ListClientAccountPerformanceInput, ListClientAccountPerformanceOutput>("list_client_account_performance", input, options)
 		}
 
 		/** ListClientAccountPortfolioAllocations lists portfolio allocation information for the specified client account.
@@ -2335,8 +2344,8 @@ export namespace Partner {
 		 *   - ErrRateLimitExceeded
 		 *   - ErrUnauthorizedIPAddress
 		 */
-		async listClientAccountPortfolioAllocations(input: ListClientAccountPortfolioAllocationsInput) : Promise<ListClientAccountPortfolioAllocationsOutput> {
-			return this.query<ListClientAccountPortfolioAllocationsInput, ListClientAccountPortfolioAllocationsOutput>("list_client_account_portfolio_allocations", input)
+		async listClientAccountPortfolioAllocations(input: ListClientAccountPortfolioAllocationsInput, options?: QueryOptions) : Promise<ListClientAccountPortfolioAllocationsOutput> {
+			return this.query<ListClientAccountPortfolioAllocationsInput, ListClientAccountPortfolioAllocationsOutput>("list_client_account_portfolio_allocations", input, options)
 		}
 
 		/** ListClientAccountPortfolioRequests lists all portfolio transaction requests for a specific account with optional filtering and pagination.
@@ -2358,8 +2367,8 @@ export namespace Partner {
 		 *   - ErrRateLimitExceeded
 		 *   - ErrUnauthorizedIPAddress
 		 */
-		async listClientAccountPortfolioRequests(input: ListClientAccountPortfolioRequestsInput) : Promise<ListClientAccountPortfolioRequestsOutput> {
-			return this.query<ListClientAccountPortfolioRequestsInput, ListClientAccountPortfolioRequestsOutput>("list_client_account_portfolio_requests", input)
+		async listClientAccountPortfolioRequests(input: ListClientAccountPortfolioRequestsInput, options?: QueryOptions) : Promise<ListClientAccountPortfolioRequestsOutput> {
+			return this.query<ListClientAccountPortfolioRequestsInput, ListClientAccountPortfolioRequestsOutput>("list_client_account_portfolio_requests", input, options)
 		}
 
 		/** ListClientAccounts lists all the accounts associated with the client.
@@ -2380,8 +2389,8 @@ export namespace Partner {
 		 *   - ErrRateLimitExceeded
 		 *   - ErrUnauthorizedIPAddress
 		 */
-		async listClientAccounts(input: ListClientAccountsInput) : Promise<ListClientAccountsOutput> {
-			return this.query<ListClientAccountsInput, ListClientAccountsOutput>("list_client_accounts", input)
+		async listClientAccounts(input: ListClientAccountsInput, options?: QueryOptions) : Promise<ListClientAccountsOutput> {
+			return this.query<ListClientAccountsInput, ListClientAccountsOutput>("list_client_accounts", input, options)
 		}
 
 		/** ListClientBankAccounts lists all bank accounts registered to the client that can be used for portfolio withdrawals.
@@ -2401,8 +2410,8 @@ export namespace Partner {
 		 *   - ErrRateLimitExceeded
 		 *   - ErrUnauthorizedIPAddress
 		 */
-		async listClientBankAccounts(input: ListClientBankAccountsInput) : Promise<ListClientBankAccountsOutput> {
-			return this.query<ListClientBankAccountsInput, ListClientBankAccountsOutput>("list_client_bank_accounts", input)
+		async listClientBankAccounts(input: ListClientBankAccountsInput, options?: QueryOptions) : Promise<ListClientBankAccountsOutput> {
+			return this.query<ListClientBankAccountsInput, ListClientBankAccountsOutput>("list_client_bank_accounts", input, options)
 		}
 
 		/** ListClients lists clients referred by an MR client with optional filtering, sorting and pagination.
@@ -2423,8 +2432,8 @@ export namespace Partner {
 		 *   - ErrRateLimitExceeded
 		 *   - ErrUnauthorizedIPAddress
 		 */
-		async listClients(input: ListClientsInput) : Promise<ListClientsOutput> {
-			return this.query<ListClientsInput, ListClientsOutput>("list_clients", input)
+		async listClients(input: ListClientsInput, options?: QueryOptions) : Promise<ListClientsOutput> {
+			return this.query<ListClientsInput, ListClientsOutput>("list_clients", input, options)
 		}
 
 		/** ListDepositConsents lists the consent items required for creating a deposit request.
@@ -2445,8 +2454,8 @@ export namespace Partner {
 		 *   - ErrSuitabilityAssessmentRequired
 		 *   - ErrUnauthorizedIPAddress
 		 */
-		async listDepositConsents(input: ListDepositConsentsInput) : Promise<ListDepositConsentsOutput> {
-			return this.query<ListDepositConsentsInput, ListDepositConsentsOutput>("list_deposit_consents", input)
+		async listDepositConsents(input: ListDepositConsentsInput, options?: QueryOptions) : Promise<ListDepositConsentsOutput> {
+			return this.query<ListDepositConsentsInput, ListDepositConsentsOutput>("list_deposit_consents", input, options)
 		}
 
 		/** ListDuitnowBanks lists available DuitNow banks for creating a DuitNow payment.
@@ -2466,8 +2475,8 @@ export namespace Partner {
 		 *   - ErrRateLimitExceeded
 		 *   - ErrUnauthorizedIPAddress
 		 */
-		async listDuitnowBanks(input: ListDuitnowBanksInput) : Promise<ListDuitnowBanksOutput> {
-			return this.query<ListDuitnowBanksInput, ListDuitnowBanksOutput>("list_duitnow_banks", input)
+		async listDuitnowBanks(input: ListDuitnowBanksInput, options?: QueryOptions) : Promise<ListDuitnowBanksOutput> {
+			return this.query<ListDuitnowBanksInput, ListDuitnowBanksOutput>("list_duitnow_banks", input, options)
 		}
 
 		/** ListNatureOfBusinesses lists the available nature of business values for creating an individual client.
@@ -2485,8 +2494,8 @@ export namespace Partner {
 		 *   - ErrRateLimitExceeded
 		 *   - ErrUnauthorizedIPAddress
 		 */
-		async listNatureOfBusinesses(input: ListNatureOfBusinessesInput) : Promise<ListNatureOfBusinessesOutput> {
-			return this.query<ListNatureOfBusinessesInput, ListNatureOfBusinessesOutput>("list_nature_of_businesses", input)
+		async listNatureOfBusinesses(input: ListNatureOfBusinessesInput, options?: QueryOptions) : Promise<ListNatureOfBusinessesOutput> {
+			return this.query<ListNatureOfBusinessesInput, ListNatureOfBusinessesOutput>("list_nature_of_businesses", input, options)
 		}
 
 		/** ListPortfolioAssets lists portfolio assets available to the client.
@@ -2506,8 +2515,8 @@ export namespace Partner {
 		 *   - ErrRateLimitExceeded
 		 *   - ErrUnauthorizedIPAddress
 		 */
-		async listPortfolioAssets(input: ListPortfolioAssetsInput) : Promise<ListPortfolioAssetsOutput> {
-			return this.query<ListPortfolioAssetsInput, ListPortfolioAssetsOutput>("list_portfolio_assets", input)
+		async listPortfolioAssets(input: ListPortfolioAssetsInput, options?: QueryOptions) : Promise<ListPortfolioAssetsOutput> {
+			return this.query<ListPortfolioAssetsInput, ListPortfolioAssetsOutput>("list_portfolio_assets", input, options)
 		}
 
 		/** ListPortfolioLimits lists the minimum and maximum deposit and withdrawal limits for a portfolio account.
@@ -2528,8 +2537,8 @@ export namespace Partner {
 		 *   - ErrRateLimitExceeded
 		 *   - ErrUnauthorizedIPAddress
 		 */
-		async listPortfolioLimits(input: ListPortfolioLimitsInput) : Promise<ListPortfolioLimitsOutput> {
-			return this.query<ListPortfolioLimitsInput, ListPortfolioLimitsOutput>("list_portfolio_limits", input)
+		async listPortfolioLimits(input: ListPortfolioLimitsInput, options?: QueryOptions) : Promise<ListPortfolioLimitsOutput> {
+			return this.query<ListPortfolioLimitsInput, ListPortfolioLimitsOutput>("list_portfolio_limits", input, options)
 		}
 
 		/** ListPortfolios lists portfolios available to a client for a given MR client.
@@ -2549,8 +2558,8 @@ export namespace Partner {
 		 *   - ErrRateLimitExceeded
 		 *   - ErrUnauthorizedIPAddress
 		 */
-		async listPortfolios(input: ListPortfoliosInput) : Promise<ListPortfoliosOutput> {
-			return this.query<ListPortfoliosInput, ListPortfoliosOutput>("list_portfolios", input)
+		async listPortfolios(input: ListPortfoliosInput, options?: QueryOptions) : Promise<ListPortfoliosOutput> {
+			return this.query<ListPortfoliosInput, ListPortfoliosOutput>("list_portfolios", input, options)
 		}
 
 		/** ListSettlementBatchRequests lists requests included in the specified settlement batches.
@@ -2570,8 +2579,8 @@ export namespace Partner {
 		 *   - ErrRateLimitExceeded
 		 *   - ErrUnauthorizedIPAddress
 		 */
-		async listSettlementBatchRequests(input: ListSettlementBatchRequestsInput) : Promise<ListSettlementBatchRequestsOutput> {
-			return this.query<ListSettlementBatchRequestsInput, ListSettlementBatchRequestsOutput>("list_settlement_batch_requests", input)
+		async listSettlementBatchRequests(input: ListSettlementBatchRequestsInput, options?: QueryOptions) : Promise<ListSettlementBatchRequestsOutput> {
+			return this.query<ListSettlementBatchRequestsInput, ListSettlementBatchRequestsOutput>("list_settlement_batch_requests", input, options)
 		}
 
 		/** ListSettlementBatches lists settlement batches available to the partner.
@@ -2590,8 +2599,8 @@ export namespace Partner {
 		 *   - ErrRateLimitExceeded
 		 *   - ErrUnauthorizedIPAddress
 		 */
-		async listSettlementBatches(input: ListSettlementBatchesInput) : Promise<ListSettlementBatchesOutput> {
-			return this.query<ListSettlementBatchesInput, ListSettlementBatchesOutput>("list_settlement_batches", input)
+		async listSettlementBatches(input: ListSettlementBatchesInput, options?: QueryOptions) : Promise<ListSettlementBatchesOutput> {
+			return this.query<ListSettlementBatchesInput, ListSettlementBatchesOutput>("list_settlement_batches", input, options)
 		}
 
 		/** ListWebhookEvents returns webhook events associated with your partner account.
@@ -2620,8 +2629,8 @@ export namespace Partner {
 		 *   - ErrUnauthorizedIPAddress
 		 *   - InvalidDateRange
 		 */
-		async listWebhookEvents(input: ListWebhookEventsInput) : Promise<ListWebhookEventsOutput> {
-			return this.query<ListWebhookEventsInput, ListWebhookEventsOutput>("list_webhook_events", input)
+		async listWebhookEvents(input: ListWebhookEventsInput, options?: QueryOptions) : Promise<ListWebhookEventsOutput> {
+			return this.query<ListWebhookEventsInput, ListWebhookEventsOutput>("list_webhook_events", input, options)
 		}
 
 		/** SimulateCompleteDuitnowPayment simulates completing a DuitNow payment for a
