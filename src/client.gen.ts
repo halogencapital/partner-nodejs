@@ -430,6 +430,8 @@ export namespace Partner {
 		amount: number
 		/** Consents contains client consent flags for the request. */
 		consents: Record<string, boolean>
+		/** VoucherCode is the promotional voucher code used to reduce the subscription fee. */
+		voucherCode: string
 		/** DuitnowBankCode is the DuitNow bank code used for the deposit payment. */
 		duitnowBankCode: string
 	}
