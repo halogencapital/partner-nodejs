@@ -1464,6 +1464,8 @@ export namespace Partner {
 		minimumExposurePercentage: number
 		/** RiskScore specifies the numerical risk score assigned to the asset. */
 		riskScore: number
+		/** RiskLabel specifies the risk label assigned to the asset. */
+		riskLabel: string
 		/** ListingDate specifies the date the asset was listed or made available. */
 		listingDate: string
 		/** ExternalURL is the URL to an external page containing additional information about the asset. */
