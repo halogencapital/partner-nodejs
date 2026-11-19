@@ -1976,7 +1976,13 @@ export namespace Partner {
 			return this.command<CreateDepositRequestInput, CreateDepositRequestOutput>("create_deposit_request", input, options)
 		}
 
-		/** CreateDuitnowPayment creates a DuitNow payment URL for a deposit request.
+		/** CreateDuitnowPayment creates a DuitNow payment URL for a deposit request. Redirect your client to the returned URL to
+		 * complete the payment with their selected bank.
+		 *
+		 * After the client returns from their bank, Halogen navigates the client to the DuitNow
+		 * redirect URL configured in your Partner Portal, along with requestId and status as query parameters.
+		 *
+		 * For example, a successful deposit navigates the client to https://partner.example/duitnow/return?requestId=123&status=deposited.
 		 *
 		 * Errors:
 		 *   - ErrDuitNowInvalidParameter
