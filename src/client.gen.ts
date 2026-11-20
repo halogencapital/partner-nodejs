@@ -1486,6 +1486,8 @@ export namespace Partner {
 		bankTransactionId?: string
 		/** TotalAmount is the total amount of all requests included in the settlement batch. */
 		totalAmount: number
+		/** TotalPostFeeAmount is the total post fee amount of all requests included in the settlement batch. */
+		totalPostFeeAmount: number
 		/** TotalRequests is the total number of requests included in the settlement batch. */
 		totalRequests: number
 		/** CreatedAt is the time the settlement batch was created. */
