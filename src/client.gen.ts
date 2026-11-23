@@ -1520,6 +1520,8 @@ export namespace Partner {
 		accountId: string
 		/** Amount is the amount of the request. */
 		amount: number
+		/** PostFeeAmount is the amount after applicable fees are deducted. */
+		postFeeAmount: number
 		/** CreatedAt is the time the request was added to the settlement batch. */
 		createdAt: string
 		/** CreatedBy is the ID of the user or partner that added the request to the settlement batch. */
