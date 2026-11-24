@@ -1436,6 +1436,12 @@ export namespace Partner {
 		iconUrl: string
 		/** IsFeatured reports whether the portfolio is featured */
 		isFeatured: boolean
+		/** MinimumInitialInvestment is the minimum amount required for the first investment. */
+		minimumInitialInvestment: number
+		/** MinimumAdditionalInvestment is the minimum amount required for each subsequent investment. */
+		minimumAdditionalInvestment: number
+		/** MinimumRedemptionAmount is the minimum amount that can be redeemed in a single request. */
+		minimumRedemptionAmount: number
 		/** List of assets and their allocations. */
 		assets: PortfolioAsset[]
 	}
