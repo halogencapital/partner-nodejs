@@ -1576,6 +1576,11 @@ export namespace Partner {
 	 * simulating the completion of a DuitNow payment.
 	 */
 	export interface SimulateCompleteDuitnowPaymentOutput {
+		/** RedirectURL is the URL to which the client is redirected after
+		 * completing the payment, if configured in the Partner Portal.
+		 * Omitted if not configured.
+		 */
+		redirectURl?: string
 	}
 
 	/** SimulateCreateBankTransferInput is the input for simulating the creation of
