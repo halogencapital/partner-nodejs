@@ -1206,6 +1206,28 @@ export namespace Partner {
 		assets: PortfolioAsset[]
 	}
 
+	export interface ListPortfolioFeesInput {
+		/** ClientID is the ID of the client who owns the account.
+		 *
+		 * Required.
+		 */
+		clientId: string
+		/** PortfolioCode is the unique code of the portfolio.
+		 *
+		 * Required.
+		 */
+		portfolioCode: string
+	}
+
+	export interface ListPortfolioFeesOutput {
+		/** ManagementFeePercentage is the annual management fee charged for the portfolio. */
+		managementFeePercentage: number
+		/** SubscriptionFeePercentage is the fee charged on new investments. */
+		subscriptionFeePercentage: number
+		/** CustodianFeePercentage is the annual custodian fee charged for the portfolio. */
+		custodianFeePercentage: number
+	}
+
 	/** ListPortfolioLimitsInput is the input for listing portfolio transaction limits. */
 	export interface ListPortfolioLimitsInput {
 		/** ClientID is the ID of the client who owns the account.
@@ -2531,6 +2553,26 @@ export namespace Partner {
 		 */
 		async listPortfolioAssets(input: ListPortfolioAssetsInput, options?: QueryOptions) : Promise<ListPortfolioAssetsOutput> {
 			return this.query<ListPortfolioAssetsInput, ListPortfolioAssetsOutput>("list_portfolio_assets", input, options)
+		}
+
+		/** ListPortfolioFees returns the management and subscription fees for a client's portfolio.
+		 *
+		 * Errors:
+		 *   - ErrExpiredApiKey
+		 *   - ErrExpiredAuthToken
+		 *   - ErrInternal
+		 *   - ErrInvalidAuthSignature
+		 *   - ErrInvalidAuthToken
+		 *   - ErrInvalidHeader
+		 *   - ErrInvalidPublicKey
+		 *   - ErrInvalidRoute
+		 *   - ErrMissingHeader
+		 *   - ErrMissingParameter
+		 *   - ErrRateLimitExceeded
+		 *   - ErrUnauthorizedIPAddress
+		 */
+		async listPortfolioFees(input: ListPortfolioFeesInput, options?: QueryOptions) : Promise<ListPortfolioFeesOutput> {
+			return this.query<ListPortfolioFeesInput, ListPortfolioFeesOutput>("list_portfolio_fees", input, options)
 		}
 
 		/** ListPortfolioLimits lists the minimum and maximum deposit and withdrawal limits for a portfolio account.
